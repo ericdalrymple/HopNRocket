@@ -48,8 +48,9 @@
      <Compile Include="Assets\Scripts\Components\DestroyOnScrollableExit.cs" />
      <Compile Include="Assets\Scripts\Components\GameInitializer.cs" />
      <Compile Include="Assets\Scripts\Components\LoopOnScrollableExit.cs" />
+     <Compile Include="Assets\Scripts\Components\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Components\WorldScroller.cs" />
      <Compile Include="Assets\Scripts\GroundManager.cs" />
-     <Compile Include="Assets\Scripts\WorldScroller.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

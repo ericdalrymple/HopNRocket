@@ -8,6 +8,7 @@ public class WorldScroller
 
 	public float m_InitialScrollSpeed;
 	public float m_ScrollAcceleration;
+	public float m_ScrollSpeedIncrement;
 
 	private float m_CurrentScrollSpeed;
 
@@ -47,5 +48,20 @@ public class WorldScroller
 	{
 		//-- Apply acceleration to the current scroll speed
 		m_CurrentScrollSpeed += m_ScrollAcceleration * Time.deltaTime;
+	}
+
+	void OnPlayerShootDown()
+	{
+		//-- Speed up the game on every hop
+		m_CurrentScrollSpeed += m_ScrollSpeedIncrement;
+	}
+
+	void OnPlayerShootForward()
+	{
+		//-- Slow down the game on every shot
+		m_CurrentScrollSpeed -= m_ScrollSpeedIncrement;
+
+		//-- Can't slow down more than the initial scroll speed
+		m_CurrentScrollSpeed = Mathf.Max( m_InitialScrollSpeed, m_CurrentScrollSpeed );
 	}
 }
