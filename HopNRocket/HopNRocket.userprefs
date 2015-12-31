@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GroundManager.cs">
+    <Files>
+      <File FileName="Assets\Scripts\GroundManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\WorldScroller.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Components\GameInitializer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Components\DestroyOnScrollableExit.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Components\LoopOnScrollableExit.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
