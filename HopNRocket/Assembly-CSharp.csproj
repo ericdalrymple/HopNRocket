@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Components\GameInitializer.cs" />
      <Compile Include="Assets\Scripts\Components\LoopOnScrollableExit.cs" />
      <Compile Include="Assets\Scripts\Components\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Components\ScoreManager.cs" />
      <Compile Include="Assets\Scripts\Components\WorldScroller.cs" />
      <Compile Include="Assets\Scripts\GroundManager.cs" />
  <Reference Include="UnityEngine.UI">
