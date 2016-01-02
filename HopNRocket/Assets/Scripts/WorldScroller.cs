@@ -4,8 +4,13 @@ using System.Collections;
 public class WorldScroller
 : MonoBehaviour
 {
+	//-- Messages send by this MonoBehaviour
+	private static readonly string MESSAGE_SCROLLABLE_EXIT = "OnScrollableExit";
+
+	//-- Constants
 	private static readonly string SCROLLABLE_TAG = "Scrollable";
 
+	//-- Memeber variables
 	public float m_InitialScrollSpeed;
 	public float m_ScrollAcceleration;
 	public float m_ScrollSpeedIncrement;
@@ -28,7 +33,8 @@ public class WorldScroller
 		GameObject colliderObject = collider.gameObject;
 		if( colliderObject.CompareTag( SCROLLABLE_TAG ) )
 		{
-			colliderObject.SendMessage( "OnScrollableExit" );
+			colliderObject.SendMessage( MESSAGE_SCROLLABLE_EXIT
+			                          , SendMessageOptions.DontRequireReceiver );
 		}
 	}
 

@@ -1,15 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\WorldScroller.cs">
     <Files>
-      <File FileName="Assets\Scripts\Components\ScoreManager.cs" Line="47" Column="1" />
-      <File FileName="Assets\Scripts\Components\PlayerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FitToVisibleArea.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FitToCeiling.cs" Line="32" Column="30" />
-      <File FileName="Assets\Scripts\GroundTile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GroundManager.cs" Line="69" Column="16" />
-      <File FileName="Assets\Scripts\WorldScroller.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GameController.cs" Line="30" Column="2" />
+      <File FileName="Assets\Scripts\GameController.cs" Line="9" Column="28" />
+      <File FileName="Assets\Scripts\UIManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\AutoSizeTurretSensor.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\DestroyOnContact.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\WorldScroller.cs" Line="15" Column="36" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

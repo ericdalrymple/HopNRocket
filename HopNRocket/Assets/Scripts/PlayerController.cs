@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController
 : MonoBehaviour
 {
+	private enum PlayerAction
+	{
+		  JUMP = 0
+		, SHOOT
+	}
+
 	//-- Messages sent by this MonoBehaviour
 	private static readonly string MESSAGE_PLAYER_JUMP = "OnPlayerJump";
 	private static readonly string MESSAGE_PLAYER_SHOT = "OnPlayerShot";
@@ -18,9 +26,9 @@ public class PlayerController
 	public float m_JumpForce;
 	public GameObject m_GameWorld;
 
-	private bool m_JumpAction;
-	private bool m_ShotAction;
+	private bool m_DisableInput;
 	private float m_NativeGravityScale;
+	private LinkedList<PlayerAction> m_QueuedActions;
 	private Rigidbody2D m_Body;
 	private Vector2 m_JumpForceVector;
 	private Vector2 m_ResolvedForceVector;
@@ -28,9 +36,9 @@ public class PlayerController
 
 	void Start()
 	{
-		m_JumpAction = false;
-		m_ShotAction = false;
+		m_DisableInput = false;
 		m_NativeGravityScale = 1.0f;
+		m_QueuedActions = new LinkedList<PlayerAction>();
 		m_Body = GetComponent<Rigidbody2D>();
 		m_JumpForceVector = new Vector2( 0.0f, m_JumpForce );
 		m_ResolvedForceVector = new Vector2();
@@ -48,15 +56,7 @@ public class PlayerController
 
 	void Update()
 	{
-		if( Input.GetKeyDown( "down" ) || Input.GetButtonDown( "Jump" ) )
-		{
-			m_JumpAction = true;
-		}
-
-		if( Input.GetKeyDown( "right" ) || Input.GetButtonDown ( "Fire1" ) )
-		{
-			m_ShotAction = true;
-		}
+		PollInput();
 	}
 
 	void FixedUpdate()
@@ -81,7 +81,18 @@ public class PlayerController
 	{
 		//-- Kill the player if it hits the ground, an obstacle, or an enemy projectile
 		GameObject colliderObject = collision.gameObject;
-		if( (LAYER_GROUND == colliderObject.layer) || (LAYER_OBSTACLE == colliderObject.layer) )
+		if( (LAYER_GROUND == colliderObject.layer)
+		 || (LAYER_OBSTACLE == colliderObject.layer) )
+		{
+			KillPlayer();
+		}
+	}
+
+	void OnTriggerEnter2D( Collider2D collider )
+	{
+		//-- Kill the player if it hits an enemy projectile
+		GameObject colliderObject = collider.gameObject;
+		if( LAYER_ENEMY_PROJECTILE == colliderObject.layer )
 		{
 			KillPlayer();
 		}
@@ -89,55 +100,138 @@ public class PlayerController
 
 	void OnGameStateChange( GameController.GameStateEvent eventInfo )
 	{
-		if( GameController.GameState.PLAYING == eventInfo.currentState )
+		switch( eventInfo.currentState )
 		{
-			m_Body.gravityScale = m_NativeGravityScale;
+			case GameController.GameState.PLAYING:
+			{
+				m_Body.gravityScale = m_NativeGravityScale;
+				break;
+			}
+
+			case GameController.GameState.GAME_OVER:
+			{
+				m_DisableInput = true;
+				m_Body.gravityScale = 0.0f;
+				break;
+			}
 		}
+
 	}
 
 	void ConsumePhysicsActions()
 	{
 		if( null == m_Body )
 		{
+			//-- No body, no physics
 			return;
 		}
 
-		string shotEvent = null;
-		Vector2 jumpVector = Vector2.zero;
-
-		if( m_JumpAction )
+		if( 0 >= m_QueuedActions.Count )
 		{
-			//-- Setup the downwards jump shot
-			jumpVector = m_JumpForceVector;
-			shotEvent = MESSAGE_PLAYER_JUMP;
-			m_JumpAction = false;
-		}
-		else if( m_ShotAction )
-		{
-			//-- Setup the forward offensive jump
-			jumpVector = m_ShotForceVector;
-			shotEvent = MESSAGE_PLAYER_SHOT;
-			m_ShotAction = false;
-		}
-		else
-		{
+			//-- No actions queued, early out
 			return;
 		}
 
+		//-- Go through the queued actions and act upon the ones
+		//   that need to affect physics.
+		LinkedListNode<PlayerAction> action = m_QueuedActions.First;
+		LinkedListNode<PlayerAction> nextAction = null;
+		while( null != action )
+		{
+			bool consume = true;
+
+			nextAction = action.Next;
+
+			switch( action.Value )
+			{
+				case PlayerAction.JUMP:
+				{
+					//-- Downwards jump shot
+				    Jump( m_JumpForceVector );
+					
+					//-- Report the shot or jump to the game controller
+				    NotifyMessage( MESSAGE_PLAYER_JUMP );
+
+					break;
+				}
+
+				case PlayerAction.SHOOT:
+				{
+					//-- Jump resulting from an offensive shot
+				    Jump( m_ShotForceVector );
+
+					//-- Report the shot or jump to the game controller
+					NotifyMessage( MESSAGE_PLAYER_SHOT );
+
+					break;
+				}
+
+				default:
+				{
+					consume = false;
+					break;
+				}
+			}
+
+			if( consume )
+			{
+				//-- Remove the action
+				m_QueuedActions.Remove( action );
+			}
+
+			action = nextAction;
+		}
+	}
+
+	void Jump( Vector2 forceVector )
+	{
 		//-- Counter the player's existing velocity so that every jump has the same impact on height
-		m_ResolvedForceVector.x = jumpVector.x;
-		m_ResolvedForceVector.y = jumpVector.y - m_Body.velocity.y;
+		m_ResolvedForceVector.x = forceVector.x;
+		m_ResolvedForceVector.y = forceVector.y - m_Body.velocity.y;
 
 		//-- Make the player jump
 		m_Body.AddForce( m_ResolvedForceVector, ForceMode2D.Impulse );
-		
-		//-- Report the shot or jump to the game controller
-		NotifyMessage( shotEvent );
 	}
 
 	void KillPlayer()
 	{
 		//-- Report the player's death to the game controller
 		NotifyMessage( MESSAGE_PLAYER_DEAD );
+	}
+
+	void PollInput()
+	{
+		if( m_DisableInput )
+		{
+			return;
+		}
+
+		Array playerActions = Enum.GetValues( typeof( PlayerAction ) );
+		foreach( PlayerAction playerAction in playerActions )
+		{
+			bool actionTriggered = false;
+
+			//-- Query the input assigned to each action
+			switch( playerAction )
+			{
+				case PlayerAction.JUMP:
+				{
+					actionTriggered = (Input.GetKeyDown( "down" ) || Input.GetButtonDown( "Jump" ));
+					break;
+				}
+					
+				case PlayerAction.SHOOT:
+				{
+					actionTriggered = (Input.GetKeyDown( "right" ) || Input.GetButtonDown ( "Fire1" ));
+					break;
+				}
+			}
+
+			//-- Queue the action so that is may be affected
+			if( actionTriggered )
+			{
+				m_QueuedActions.AddLast( playerAction );
+			}
+		}
 	}
 }

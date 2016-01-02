@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 45130446392c13b4699ffeb6e7fbe341
-timeCreated: 1451704039
+timeCreated: 1451754869
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -14,6 +14,8 @@ TextureImporter:
     21300014: MSM4_Enemies_7
     21300016: MSM4_Enemies_8
     21300018: MSM4_Enemies_9
+    21300020: MSM4_Enemies_10
+    21300022: MSM4_Enemies_11
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -157,6 +159,26 @@ TextureImporter:
         y: 184
         width: 14
         height: 21
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_10
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 67
+        width: 62
+        height: 57
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_11
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 159
+        width: 12
+        height: 12
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

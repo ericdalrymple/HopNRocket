@@ -9,7 +9,7 @@ public class GameController
 	//-- States for the game's overall state machine
 	public enum GameState
 	{
-		  NONE
+		  NONE = 0
 		, TITLE_SCREEN
 		, PLAYING
 		, GAME_OVER

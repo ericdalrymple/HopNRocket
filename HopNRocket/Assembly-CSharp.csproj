@@ -45,6 +45,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Abstract\ProjectileLauncher.cs" />
+     <Compile Include="Assets\Scripts\AutoSizeTurretSensor.cs" />
+     <Compile Include="Assets\Scripts\DestroyOnContact.cs" />
      <Compile Include="Assets\Scripts\DestroyOnScrollableExit.cs" />
      <Compile Include="Assets\Scripts\FitToCeiling.cs" />
      <Compile Include="Assets\Scripts\FitToVisibleArea.cs" />
