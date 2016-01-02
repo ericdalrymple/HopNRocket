@@ -1,13 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Components\GameInitializer.cs">
     <Files>
-      <File FileName="Assets\Scripts\GroundManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Components\GameInitializer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GroundManager.cs" Line="95" Column="69" />
+      <File FileName="Assets\Scripts\Components\GameInitializer.cs" Line="69" Column="1" />
       <File FileName="Assets\Scripts\Components\DestroyOnScrollableExit.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Components\LoopOnScrollableExit.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Components\PlayerController.cs" Line="64" Column="4" />
-      <File FileName="Assets\Scripts\Components\WorldScroller.cs" Line="44" Column="4" />
+      <File FileName="Assets\Scripts\Components\PlayerController.cs" Line="22" Column="36" />
+      <File FileName="Assets\Scripts\Components\WorldScroller.cs" Line="60" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -4,10 +4,22 @@ using System.Collections;
 public class PlayerController
 : MonoBehaviour
 {
+	//-- Messages sent by this MonoBehaviour
+	private static readonly string MESSAGE_PLAYER_JUMP = "OnPlayerJump";
+	private static readonly string MESSAGE_PLAYER_SHOT = "OnPlayerShot";
+	private static readonly string MESSAGE_PLAYER_DEAD = "OnPlayerDead";
+
+	//-- Constants
+	private static readonly int LAYER_GROUND = LayerMask.NameToLayer( "Ground" );
+	private static readonly int LAYER_OBSTACLE = LayerMask.NameToLayer( "Obstacle" );
+	private static readonly int LAYER_ENEMY_PROJECTILE = LayerMask.NameToLayer( "EProjectile" );
+
+	//-- Member variables
 	public float m_JumpForce;
 
-	private bool m_DownShotQueued;
-	private bool m_ForwardShotQueued;
+	private bool m_JumpAction;
+	private bool m_ShotAction;
+	private float m_NativeGravityScale;
 	private GameObject m_GameController;
 	private Rigidbody2D m_Body;
 	private Vector2 m_JumpForceVector;
@@ -16,34 +28,62 @@ public class PlayerController
 
 	void Start()
 	{
-		m_DownShotQueued = false;
-		m_ForwardShotQueued = false;
+		m_JumpAction = false;
+		m_ShotAction = false;
+		m_NativeGravityScale = 1.0f;
 		m_GameController = GameObject.FindGameObjectWithTag( "GameController" );
 		m_Body = GetComponent<Rigidbody2D>();
 		m_JumpForceVector = new Vector2( 0.0f, m_JumpForce );
 		m_ResolvedForceVector = new Vector2();
 		m_ShotForceVector = new Vector2( 0.0f, m_JumpForce * Mathf.Cos( 90.0f * Mathf.Deg2Rad ) );
+
+		//-- When the game starts, gravity should not affect the
+		//   player object, but we want to use the gravity scale
+		//   specified by the developer when gameplay starts.
+		if( null != m_Body )
+		{
+			m_NativeGravityScale = m_Body.gravityScale;
+			m_Body.gravityScale = 0.0f;
+		}
 	}
 
 	void Update()
 	{
 		if( Input.GetKeyDown( "down" ) || Input.GetButtonDown( "Jump" ) )
 		{
-			m_DownShotQueued = true;
+			m_JumpAction = true;
 		}
 
 		if( Input.GetKeyDown( "right" ) || Input.GetButtonDown ( "Fire1" ) )
 		{
-			m_ForwardShotQueued = true;
+			m_ShotAction = true;
 		}
 	}
 
 	void FixedUpdate()
 	{
-		ConsumeShot();
+		ConsumePhysicsActions();
 	}
 
-	void ConsumeShot()
+	void OnCollisionEnter2D( Collision2D collision )
+	{
+		//-- Kill the player if it hits the ground, an obstacle, or an enemy projectile
+		GameObject colliderObject = collision.gameObject;
+		if( (LAYER_GROUND == colliderObject.layer) || (LAYER_OBSTACLE == colliderObject.layer) )
+		{
+			KillPlayer();
+		}
+	}
+
+	void OnGamePlaying()
+	{
+		if( null != m_Body )
+		{
+			m_Body.gravityScale = m_NativeGravityScale;
+		}
+	}
+
+	void ConsumePhysicsActions()
 	{
 		if( null == m_Body )
 		{
@@ -53,19 +93,19 @@ public class PlayerController
 		string shotEvent = null;
 		Vector2 jumpVector = Vector2.zero;
 
-		if( m_DownShotQueued )
+		if( m_JumpAction )
 		{
 			//-- Setup the downwards jump shot
 			jumpVector = m_JumpForceVector;
-			shotEvent = "OnPlayerShootDown";
-			m_DownShotQueued = false;
+			shotEvent = MESSAGE_PLAYER_JUMP;
+			m_JumpAction = false;
 		}
-		else if( m_ForwardShotQueued )
+		else if( m_ShotAction )
 		{
 			//-- Setup the forward offensive jump
 			jumpVector = m_ShotForceVector;
-			shotEvent = "OnPlayerShootForward";
-			m_ForwardShotQueued = false;
+			shotEvent = MESSAGE_PLAYER_SHOT;
+			m_ShotAction = false;
 		}
 		else
 		{
@@ -79,10 +119,19 @@ public class PlayerController
 		//-- Make the player jump
 		m_Body.AddForce( m_ResolvedForceVector, ForceMode2D.Impulse );
 		
-		//-- Report the jump to the game controller
+		//-- Report the shot or jump to the game controller
 		if( null != m_GameController )
 		{
 			m_GameController.SendMessage( shotEvent );
+		}
+	}
+
+	void KillPlayer()
+	{
+		//-- Report the player's death to the game controller
+		if( null != m_GameController )
+		{
+			m_GameController.SendMessage( MESSAGE_PLAYER_DEAD );
 		}
 	}
 }

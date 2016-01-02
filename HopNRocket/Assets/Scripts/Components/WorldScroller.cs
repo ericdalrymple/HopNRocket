@@ -14,7 +14,7 @@ public class WorldScroller
 
 	void Start()
 	{
-		m_CurrentScrollSpeed = m_InitialScrollSpeed;
+		m_CurrentScrollSpeed = 0.0f;
 	}
 
 	void Update()
@@ -50,13 +50,23 @@ public class WorldScroller
 		m_CurrentScrollSpeed += m_ScrollAcceleration * Time.deltaTime;
 	}
 
-	void OnPlayerShootDown()
+	void OnGamePlaying()
+	{
+		m_CurrentScrollSpeed = m_InitialScrollSpeed;
+	}
+
+	void OnPlayerDead()
+	{
+		m_CurrentScrollSpeed = 0.0f;
+	}
+
+	void OnPlayerJump()
 	{
 		//-- Speed up the game on every hop
 		m_CurrentScrollSpeed += m_ScrollSpeedIncrement;
 	}
 
-	void OnPlayerShootForward()
+	void OnPlayerShot()
 	{
 		//-- Slow down the game on every shot
 		m_CurrentScrollSpeed -= m_ScrollSpeedIncrement;

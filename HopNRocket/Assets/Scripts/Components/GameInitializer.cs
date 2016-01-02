@@ -27,11 +27,6 @@ public class GameInitializer
 		                                     , m_GameArea.bounds.min.y
 		                                     , m_GroundTilePrefabs );
 	}
-	
-	void Update()
-    {
-
-	}
 
 	void InitializeCeiling()
 	{

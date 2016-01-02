@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Components\DestroyOnScrollableExit.cs" />
+     <Compile Include="Assets\Scripts\Components\GameFlowManager.cs" />
      <Compile Include="Assets\Scripts\Components\GameInitializer.cs" />
      <Compile Include="Assets\Scripts\Components\LoopOnScrollableExit.cs" />
      <Compile Include="Assets\Scripts\Components\PlayerController.cs" />
