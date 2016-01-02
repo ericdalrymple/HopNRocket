@@ -50,14 +50,16 @@ public class WorldScroller
 		m_CurrentScrollSpeed += m_ScrollAcceleration * Time.deltaTime;
 	}
 
-	void OnGamePlaying()
+	void OnGameStateChange( GameController.GameStateEvent eventInfo )
 	{
-		m_CurrentScrollSpeed = m_InitialScrollSpeed;
-	}
-
-	void OnPlayerDead()
-	{
-		m_CurrentScrollSpeed = 0.0f;
+		if( GameController.GameState.GAME_OVER == eventInfo.currentState )
+		{
+			m_CurrentScrollSpeed = 0.0f;
+		}
+		else if( GameController.GameState.PLAYING == eventInfo.currentState )
+		{
+			m_CurrentScrollSpeed = m_InitialScrollSpeed;
+		}
 	}
 
 	void OnPlayerJump()

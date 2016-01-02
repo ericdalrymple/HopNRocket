@@ -31,7 +31,7 @@ public class ScoreManager
 
 	void OnLevelWasLoaded()
 	{
-		print ( this.GetInstanceID() );
+
 	}
 
 	void Start()

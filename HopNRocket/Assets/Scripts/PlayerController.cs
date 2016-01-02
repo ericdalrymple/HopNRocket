@@ -16,11 +16,11 @@ public class PlayerController
 
 	//-- Member variables
 	public float m_JumpForce;
+	public GameObject m_GameWorld;
 
 	private bool m_JumpAction;
 	private bool m_ShotAction;
 	private float m_NativeGravityScale;
-	private GameObject m_GameController;
 	private Rigidbody2D m_Body;
 	private Vector2 m_JumpForceVector;
 	private Vector2 m_ResolvedForceVector;
@@ -31,7 +31,6 @@ public class PlayerController
 		m_JumpAction = false;
 		m_ShotAction = false;
 		m_NativeGravityScale = 1.0f;
-		m_GameController = GameObject.FindGameObjectWithTag( "GameController" );
 		m_Body = GetComponent<Rigidbody2D>();
 		m_JumpForceVector = new Vector2( 0.0f, m_JumpForce );
 		m_ResolvedForceVector = new Vector2();
@@ -65,6 +64,19 @@ public class PlayerController
 		ConsumePhysicsActions();
 	}
 
+	void NotifyMessage( string message )
+	{
+		if( null != GameController.Instance )
+		{
+			GameController.Instance.SendMessage( message, SendMessageOptions.DontRequireReceiver );
+		}
+
+		if( null != m_GameWorld )
+		{
+			m_GameWorld.BroadcastMessage( message, SendMessageOptions.DontRequireReceiver );
+		}
+	}
+
 	void OnCollisionEnter2D( Collision2D collision )
 	{
 		//-- Kill the player if it hits the ground, an obstacle, or an enemy projectile
@@ -75,9 +87,9 @@ public class PlayerController
 		}
 	}
 
-	void OnGamePlaying()
+	void OnGameStateChange( GameController.GameStateEvent eventInfo )
 	{
-		if( null != m_Body )
+		if( GameController.GameState.PLAYING == eventInfo.currentState )
 		{
 			m_Body.gravityScale = m_NativeGravityScale;
 		}
@@ -120,18 +132,12 @@ public class PlayerController
 		m_Body.AddForce( m_ResolvedForceVector, ForceMode2D.Impulse );
 		
 		//-- Report the shot or jump to the game controller
-		if( null != m_GameController )
-		{
-			m_GameController.SendMessage( shotEvent );
-		}
+		NotifyMessage( shotEvent );
 	}
 
 	void KillPlayer()
 	{
 		//-- Report the player's death to the game controller
-		if( null != m_GameController )
-		{
-			m_GameController.SendMessage( MESSAGE_PLAYER_DEAD );
-		}
+		NotifyMessage( MESSAGE_PLAYER_DEAD );
 	}
 }

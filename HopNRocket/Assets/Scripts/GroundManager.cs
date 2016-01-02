@@ -4,49 +4,76 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class GroundManager
+: MonoBehaviour
 {
-    //-- Singleton construct for this manager
-    private static GroundManager s_Instance = null;
+	private static GroundManager s_Instance = null;
 
-    public static GroundManager Instance
-    {
-        get
-        {
-            if( null == s_Instance )
-            {
-                s_Instance = new GroundManager();
-            }
+	public static GroundManager Instance
+	{
+		get{ return s_Instance; }
+	}
 
-            return s_Instance;
-        }
-    }
+	public BoxCollider2D m_GameArea;
+	public GameObject[] m_GroundTilePrefabs;
 
+	private bool m_InitializeGround;
     private LinkedList<GameObject> m_GroundTiles = new LinkedList<GameObject>();
 
-    public void GenerateGround( float startX, float endX, float groundY, GameObject[] groundTilePrefabs )
+	void Awake()
+	{
+		//-- Make active instance staticly accessible to others
+		s_Instance = this;
+	}
+
+	void Start()
+	{
+		m_InitializeGround = (null != m_GameArea);
+	}
+
+	void Update()
+	{
+		//-- Initializing the ground is done from the Update in order
+		//   to ensure that the game area is already properly resized
+		if( m_InitializeGround )
+		{
+			GenerateGround( m_GameArea.bounds.min.x
+			              , m_GameArea.bounds.max.x
+			              , m_GameArea.bounds.min.y );
+
+			m_InitializeGround = false;
+		}
+	}
+
+	void OnDestroy()
+	{
+		//-- Avoid others referencing destroyed object
+		s_Instance = null;
+	}
+
+    void GenerateGround( float startX, float endX, float groundY )
     {
+		//-- Validate the number of prefabs
+		int tilePrefabCount = m_GroundTilePrefabs.Length;
+		if( 0 >= tilePrefabCount )
+		{
+			//-- Cannot generate tiles without any prefabs
+			return;
+		}
+
         //-- Validate the span
         if( startX > endX )
         {
             //-- Ensure that startX is smaller than endX
             float temp = startX;
             startX = endX;
-            endX = startX;
-        }
-        else if( startX == endX )
+			endX = temp;
+		}
+		else if( startX == endX )
         {
             //-- No tiles to lay down since there's no space
             return;
         }
 
-        //-- Validate the number of prefabs
-        int tilePrefabCount = groundTilePrefabs.Length;
-        if( 0 >= tilePrefabCount )
-        {
-            //-- Cannot generate tiles without any prefabs
-            return;
-        }
-        
         //-- Initialize useful variables
         float x = startX;
         float tileWidth = 0.0f;
@@ -79,7 +106,7 @@ public class GroundManager
 
             //-- Randomly select a tile prefab
             tilePrefabIndex = Random.Range( 0, tilePrefabCount );
-            tilePrefab = groundTilePrefabs[tilePrefabIndex];
+			tilePrefab = m_GroundTilePrefabs[tilePrefabIndex];
 
             if( null != tilePrefab )
             {
@@ -97,8 +124,6 @@ public class GroundManager
 
                     //-- Add the tile to our list
                     m_GroundTiles.AddLast( tileInstance );
-
-                    
 
                     //-- Move the marker to the right of the new tile
                     x += tileWidth;
