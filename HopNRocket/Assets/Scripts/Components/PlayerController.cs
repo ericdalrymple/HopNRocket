@@ -112,9 +112,9 @@ public class PlayerController
 			return;
 		}
 
-		//-- Counter the player's downward velocity
+		//-- Counter the player's existing velocity so that every jump has the same impact on height
 		m_ResolvedForceVector.x = jumpVector.x;
-		m_ResolvedForceVector.y = jumpVector.y - Mathf.Min( 0.0f, m_Body.velocity.y );
+		m_ResolvedForceVector.y = jumpVector.y - m_Body.velocity.y;
 
 		//-- Make the player jump
 		m_Body.AddForce( m_ResolvedForceVector, ForceMode2D.Impulse );
