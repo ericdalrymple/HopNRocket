@@ -67,15 +67,20 @@ public class PlayerController
 
 	void NotifyMessage( string message )
 	{
+		//-- Inform game controller of player actions
 		if( null != GameController.Instance )
 		{
 			GameController.Instance.SendMessage( message, SendMessageOptions.DontRequireReceiver );
 		}
 
+		//-- Inform world of player actions
 		if( null != m_GameWorld )
 		{
 			m_GameWorld.BroadcastMessage( message, SendMessageOptions.DontRequireReceiver );
 		}
+
+		//-- Notify children of player actions
+		gameObject.BroadcastMessage( message, SendMessageOptions.DontRequireReceiver );
 	}
 
 	void OnCollisionEnter2D( Collision2D collision )
