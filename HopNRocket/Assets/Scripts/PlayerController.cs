@@ -18,6 +18,7 @@ public class PlayerController
 	private static readonly string MESSAGE_PLAYER_DEAD = "OnPlayerDead";
 
 	//-- Constants
+	private static readonly int LAYER_ENEMY = LayerMask.NameToLayer( "Enemy" );
 	private static readonly int LAYER_GROUND = LayerMask.NameToLayer( "Ground" );
 	private static readonly int LAYER_OBSTACLE = LayerMask.NameToLayer( "Obstacle" );
 	private static readonly int LAYER_ENEMY_PROJECTILE = LayerMask.NameToLayer( "EProjectile" );
@@ -81,8 +82,9 @@ public class PlayerController
 	{
 		//-- Kill the player if it hits the ground, an obstacle, or an enemy projectile
 		GameObject colliderObject = collision.gameObject;
-		if( (LAYER_GROUND == colliderObject.layer)
-		 || (LAYER_OBSTACLE == colliderObject.layer) )
+		if( (LAYER_ENEMY == colliderObject.layer)
+		 || (LAYER_OBSTACLE == colliderObject.layer)
+		 || (LAYER_GROUND == colliderObject.layer) )
 		{
 			KillPlayer();
 		}
@@ -92,7 +94,8 @@ public class PlayerController
 	{
 		//-- Kill the player if it hits an enemy projectile
 		GameObject colliderObject = collider.gameObject;
-		if( LAYER_ENEMY_PROJECTILE == colliderObject.layer )
+		if( (LAYER_ENEMY == colliderObject.layer)
+		 || (LAYER_ENEMY_PROJECTILE == colliderObject.layer))
 		{
 			KillPlayer();
 		}
@@ -112,10 +115,10 @@ public class PlayerController
 			{
 				m_DisableInput = true;
 				m_Body.gravityScale = 0.0f;
+				m_Body.velocity = Vector2.zero;
 				break;
 			}
 		}
-
 	}
 
 	void ConsumePhysicsActions()

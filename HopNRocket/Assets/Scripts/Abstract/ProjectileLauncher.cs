@@ -11,14 +11,17 @@ public abstract class ProjectileLauncher
 	}
 
 	//-- Messages sent by this MonoBehaviour
-	private static readonly string MESSAGE_PROJECTILE_LAUNCHED = "OnProjectileLaunched";
+	private static readonly string MESSAGE_PROJECTILE_LAUNCHED = "OnProjectileLaunch";
+
+	//-- Member variables
+	public GameObject m_Projectile;
 
 	//-- Abstract methods & functions
 	protected abstract ProjectileLaunchEvent GenerateLaunchEvent();
 
-	protected void LaunchProjectile( GameObject projectile )
+	protected void LaunchProjectile()
 	{
-		GameObject projectileInstance = Instantiate( projectile
+		GameObject projectileInstance = Instantiate( m_Projectile
 										           , gameObject.transform.position
 										           , Quaternion.identity ) as GameObject;
 
