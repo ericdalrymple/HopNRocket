@@ -56,10 +56,15 @@
      <Compile Include="Assets\Scripts\GroundManager.cs" />
      <Compile Include="Assets\Scripts\GroundTile.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\ProjectileLaunchers\BasicProjectileLauncher.cs" />
+     <Compile Include="Assets\Scripts\ProjectileLaunchers\DefaultProjectileLauncher.cs" />
+     <Compile Include="Assets\Scripts\ProjectileLaunchers\IntervalProjectileLauncher.cs" />
+     <Compile Include="Assets\Scripts\ProjectileLaunchers\PlayerJumpProjectileLauncher.cs" />
+     <Compile Include="Assets\Scripts\ProjectileLaunchers\PlayerShootProjectileLauncher.cs" />
+     <Compile Include="Assets\Scripts\Projectiles\AcceleratingProjectile.cs" />
+     <Compile Include="Assets\Scripts\Projectiles\BasicProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\LobProjectile.cs" />
-     <Compile Include="Assets\Scripts\Projectiles\StraightProjectile.cs" />
      <Compile Include="Assets\Scripts\ScoreManager.cs" />
+     <Compile Include="Assets\Scripts\TurretSpawner.cs" />
      <Compile Include="Assets\Scripts\UIManager.cs" />
      <Compile Include="Assets\Scripts\WorldScroller.cs" />
  <Reference Include="UnityEngine.UI">
