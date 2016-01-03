@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BasicProjectileLauncher
+public class IntervalProjectileLauncher
 : DefaultProjectileLauncher
 {
 	public float m_LaunchDelay;
