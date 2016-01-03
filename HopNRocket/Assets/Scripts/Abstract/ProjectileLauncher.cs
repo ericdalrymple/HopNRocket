@@ -25,6 +25,8 @@ public abstract class ProjectileLauncher
 										           , gameObject.transform.position
 										           , Quaternion.identity ) as GameObject;
 
+		projectileInstance.transform.SetParent( gameObject.transform );
+
 		ProjectileLaunchEvent launchEvent = GenerateLaunchEvent();
 
 		projectileInstance.SendMessage( MESSAGE_PROJECTILE_LAUNCHED
