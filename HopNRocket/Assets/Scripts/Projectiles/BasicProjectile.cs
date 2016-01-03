@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StraightProjectile
+public class BasicProjectile
 : Projectile
 {
 	private Rigidbody2D m_Body;
