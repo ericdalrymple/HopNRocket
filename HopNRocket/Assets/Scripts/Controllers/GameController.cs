@@ -28,15 +28,13 @@ public class GameController
 	//-- Singleton instance
 	private static GameController s_Instance;
 
-	public static GameController Instance
+	public static GameController instance
 	{
 		get{ return s_Instance; }
 	}
 
 	//-- Member variables
-	private GameObject m_Player;
-	private GameObject m_UIManager;
-	private GameObject m_World;
+	private GameObject[] m_GameStateListeners;
 	private GameState m_CurrentGameState;
 
 	void Awake()
@@ -67,21 +65,6 @@ public class GameController
 		m_CurrentGameState = GameState.NONE;
 
 		Initialize();
-	}
-
-	void Initialize()
-	{
-		//-- Cache player object
-		m_Player = GameObject.FindGameObjectWithTag( "Player" );
-		
-		//-- Cache UI manager object
-		m_UIManager = GameObject.FindGameObjectWithTag( "UI" );
-		
-		//-- Cache world object
-		m_World = GameObject.FindGameObjectWithTag( "World" );
-		
-		//-- Initialize game state
-		SetGameState( GameState.TITLE_SCREEN );
 	}
 
 	void Update()
@@ -115,6 +98,27 @@ public class GameController
 		}
 	}
 
+	public bool IsGamePlaying()
+	{
+		return (GameState.PLAYING == m_CurrentGameState);
+	}
+
+	void Initialize()
+	{
+		//-- Initialize an array will all the objects we
+		//   want to notify about game state
+		m_GameStateListeners = new GameObject[4];
+		{
+			m_GameStateListeners[0] = gameObject;
+			m_GameStateListeners[1] = GameObject.FindGameObjectWithTag( "Player" );
+			m_GameStateListeners[2] = GameObject.FindGameObjectWithTag( "UI" );
+			m_GameStateListeners[3] = GameObject.FindGameObjectWithTag( "World" );
+		}
+
+		//-- Initialize game state
+		SetGameState( GameState.TITLE_SCREEN );
+	}
+
 	void OnPlayerDead()
 	{
 		//-- Game over if the player dies
@@ -131,25 +135,11 @@ public class GameController
 		}
 
 		//-- Send the event
-		if( null != m_Player )
+		foreach( GameObject listener in m_GameStateListeners )
 		{
- 			m_Player.BroadcastMessage( MESSAGE_GAME_STATE_CHANGE
+			listener.BroadcastMessage( MESSAGE_GAME_STATE_CHANGE
 			                         , eventInfo
 			                         , SendMessageOptions.DontRequireReceiver );
-		}
-
-		if( null != m_UIManager )
-		{
-			m_UIManager.BroadcastMessage( MESSAGE_GAME_STATE_CHANGE
-			                            , eventInfo
-			                            , SendMessageOptions.DontRequireReceiver );
-		}
-		
-		if( null != m_World )
-		{
-			m_World.BroadcastMessage( MESSAGE_GAME_STATE_CHANGE
-			                        , eventInfo
-			                        , SendMessageOptions.DontRequireReceiver );
 		}
 	}
 
