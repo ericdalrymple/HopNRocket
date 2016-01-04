@@ -45,21 +45,28 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Abstract\Projectile.cs" />
-     <Compile Include="Assets\Scripts\Abstract\ProjectileLauncher.cs" />
-     <Compile Include="Assets\Scripts\AutoSizeTurretSensor.cs" />
+     <Compile Include="Assets\Scripts\Abstract\LayerSelector.cs" />
+     <Compile Include="Assets\Scripts\AutoSizeCollider.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\DestroyBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\SendMessageBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\TurretShootBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Controllers\GameController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\GroundTileController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\TurretController.cs" />
+     <Compile Include="Assets\Scripts\DamageOnCollision.cs" />
+     <Compile Include="Assets\Scripts\DamageOnContact.cs" />
      <Compile Include="Assets\Scripts\DestroyOnContact.cs" />
-     <Compile Include="Assets\Scripts\DestroyOnScrollableExit.cs" />
+     <Compile Include="Assets\Scripts\DestroyOnWorldExit.cs" />
      <Compile Include="Assets\Scripts\FitToCeiling.cs" />
      <Compile Include="Assets\Scripts\FitToVisibleArea.cs" />
-     <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GroundManager.cs" />
-     <Compile Include="Assets\Scripts\GroundTile.cs" />
-     <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\ProjectileLaunchers\AbstractProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\DefaultProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\IntervalProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\PlayerJumpProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\PlayerShootProjectileLauncher.cs" />
+     <Compile Include="Assets\Scripts\Projectiles\AbstractProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\AcceleratingProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\BasicProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\LobProjectile.cs" />
