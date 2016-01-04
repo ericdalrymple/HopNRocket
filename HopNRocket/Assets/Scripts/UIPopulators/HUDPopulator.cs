@@ -9,43 +9,24 @@ public class HUDPopulator
 	[Tooltip( "Rate of value change in points per second" )]
 	public float m_ScoreTrickleRate;
 
+	public Text m_BestScoreText;
+	public Text m_ScoreText;
+	public Text m_TokenText;
+
 	private float m_CurrentScore = 0;
 	private float m_NewScore = 0;
 	private float m_OldScore = 0;
-
-	private Text m_BestScoreText;
-	private Text m_ScoreText;
-	private Text m_TokenText;
 
 	private StringBuilder m_ConcatBuffer = new StringBuilder();
 
 	void Start()
 	{
-		GameObject objectBuffer;
-
-		objectBuffer = GameObject.Find( "lblBestScoreValue" );
-		if( null != objectBuffer )
+		if( null != m_BestScoreText )
 		{
-			m_BestScoreText = objectBuffer.GetComponent<Text>();
-			if( null != m_BestScoreText )
-			{
-				//-- Immediately set the value to the best score
-				m_ConcatBuffer.Length = 0;
-				m_ConcatBuffer.Append( ScoreManager.instance.GetBestScore() );
-				m_BestScoreText.text = m_ConcatBuffer.ToString();
-			}
-		}
-
-		objectBuffer = GameObject.Find( "lblScoreValue" );
-		if( null != objectBuffer )
-		{
-			m_ScoreText = objectBuffer.GetComponent<Text>();
-		}
-
-		objectBuffer = GameObject.Find( "lblToken1Quantity" );
-		if( null != objectBuffer )
-		{
-			m_TokenText = objectBuffer.GetComponent<Text>();
+			//-- Immediately set the value to the best score
+			m_ConcatBuffer.Length = 0;
+			m_ConcatBuffer.Append( ScoreManager.instance.bestScore );
+			m_BestScoreText.text = m_ConcatBuffer.ToString();
 		}
 	}
 
@@ -60,7 +41,7 @@ public class HUDPopulator
 		bool refresh = false;
 
 		float backup = m_NewScore;
-		m_NewScore = ScoreManager.instance.GetTotalScore();
+		m_NewScore = ScoreManager.instance.totalScore;
 		if( backup != m_NewScore )
 		{
 			//-- Update the 'old score' every time the score changes
