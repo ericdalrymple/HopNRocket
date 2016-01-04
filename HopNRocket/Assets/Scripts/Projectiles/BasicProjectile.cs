@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 /**
@@ -7,7 +7,7 @@ using System.Collections;
  * events provided by the projectile launcher that produced it.
  */
 public class BasicProjectile
-: Projectile
+: AbstractProjectile
 {
 	private Rigidbody2D m_Body;
 
@@ -16,7 +16,7 @@ public class BasicProjectile
 		m_Body = GetComponent<Rigidbody2D>();
 	}
 
-	protected override void OnProjectileLaunch( ProjectileLauncher.ProjectileLaunchEvent eventInfo )
+	protected override void OnProjectileLaunch( AbstractProjectileLauncher.ProjectileLaunchEvent eventInfo )
 	{
 		if( null != m_Body )
 		{

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 /**
@@ -8,7 +8,7 @@ using System.Collections;
  * produced it.
  */
 public class AcceleratingProjectile
-: Projectile
+: AbstractProjectile
 {
 	/** Acceleration in game units per second per second */
 	public float m_Acceleration;
@@ -30,7 +30,7 @@ public class AcceleratingProjectile
 		}
 	}
 
-	protected override void OnProjectileLaunch( ProjectileLauncher.ProjectileLaunchEvent eventInfo )
+	protected override void OnProjectileLaunch( AbstractProjectileLauncher.ProjectileLaunchEvent eventInfo )
 	{
 		if( null != m_Body )
 		{
