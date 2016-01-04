@@ -49,6 +49,8 @@ public class GameController
 		{
 			Destroy( gameObject );
 		}
+
+		LoadGame();
 	}
 
 	void OnLevelWasLoaded()
@@ -96,6 +98,16 @@ public class GameController
 				break;
 			}
 		}
+	}
+
+	public void LoadGame()
+	{
+		ScoreManager.instance.Load();
+	}
+
+	public void SaveGame()
+	{
+		ScoreManager.instance.Save();
 	}
 
 	public bool IsGamePlaying()
@@ -151,34 +163,35 @@ public class GameController
 			return;
 		}
 
-		//-- Initialize stuff for the 
-		switch( state )
-		{
-		case GameState.TITLE_SCREEN:
-		{
-			break;
-		}
-			
-		case GameState.PLAYING:
-		{
-			break;
-		}
-			
-		case GameState.GAME_OVER:
-		{
-			break;
-		}
-			
-		default:
-		{
-			Assert.IsTrue( false, "Invalid game state: " + m_CurrentGameState );
-			break;
-		}
-		}
-
 		GameState backup = m_CurrentGameState;
 		m_CurrentGameState = state;
 
 		NotifyStateChange( backup, m_CurrentGameState );
+
+		//-- Setup
+		switch( m_CurrentGameState )
+		{
+			case GameState.TITLE_SCREEN:
+			{
+				break;
+			}
+				
+			case GameState.PLAYING:
+			{
+				break;
+			}
+				
+			case GameState.GAME_OVER:
+			{
+				SaveGame();
+				break;
+			}
+				
+			default:
+			{
+				Assert.IsTrue( false, "Invalid game state: " + m_CurrentGameState );
+				break;
+			}
+		}
 	}
 }
