@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * A projectile that travels in a straight line at a contant
+ * rate. It's initial velocity is determined by the launch
+ * events provided by the projectile launcher that produced it.
+ */
 public class BasicProjectile
 : Projectile
 {
@@ -15,6 +20,7 @@ public class BasicProjectile
 	{
 		if( null != m_Body )
 		{
+			//-- Apply launch velocity
 			m_Body.velocity = eventInfo.launchDirection * eventInfo.launchForce;
 		}
 	}

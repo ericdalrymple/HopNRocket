@@ -1,9 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * A projectile that travels in a straight line with a specified
+ * acceleration. It's initial velocity is determined by the
+ * launch events provided by the projectile launcher that
+ * produced it.
+ */
 public class AcceleratingProjectile
 : Projectile
 {
+	/** Acceleration in game units per second per second */
 	public float m_Acceleration;
 
 	private Rigidbody2D m_Body;
@@ -17,6 +24,7 @@ public class AcceleratingProjectile
 	{
 		if( null != m_Body )
 		{
+			//-- Apply acceleration in the direction of the current velocity
 			Vector2 acceleration = m_Body.velocity.normalized * m_Acceleration * Time.deltaTime;
 			m_Body.velocity += acceleration;
 		}
@@ -26,6 +34,7 @@ public class AcceleratingProjectile
 	{
 		if( null != m_Body )
 		{
+			//-- Apply initial velocity according to launch parameters
 			m_Body.velocity = eventInfo.launchDirection * eventInfo.launchForce;
 		}
 	}
