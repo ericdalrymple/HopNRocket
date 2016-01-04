@@ -1,10 +1,17 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class DefaultProjectileLauncher
-: ProjectileLauncher
+: AbstractProjectileLauncher
 {
 	public float m_LaunchForce;
+
+	private Rigidbody2D m_Body;
+
+	void Start()
+	{
+		m_Body = GetComponent<Rigidbody2D>();
+	}
 
 	protected void ConfigureDefaultLaunchEvent( ProjectileLaunchEvent launchEvent )
 	{
@@ -28,11 +35,28 @@ public class DefaultProjectileLauncher
 			objectTransform = objectTransform.parent;
 		}
 
+		float resultantForce = m_LaunchForce;
+		Vector2 resultantDirection = direction;
+
+		//-- Add the velocity of the projectile launcher to acheive a
+		//   nice smooth-looking launch
+		if( null != m_Body )
+		{
+			//-- Get the velocities of the launcher and the launch
+			Vector2 bodyVelocity = m_Body.velocity;
+			Vector2 launchVelocity = direction * m_LaunchForce;
+
+			//-- Decompose the resultant velocity to get the new force and direction
+			Vector2 resultantVelocity = bodyVelocity + launchVelocity;
+			resultantForce = resultantVelocity.magnitude;
+			resultantDirection = resultantVelocity / resultantForce;
+		}
+
 		//-- Generate the launch event
 		ProjectileLaunchEvent defaultEventInfo = new ProjectileLaunchEvent();
 		{
-			defaultEventInfo.launchForce = m_LaunchForce;
-			defaultEventInfo.launchDirection = new Vector2( direction.x, direction.y );
+			defaultEventInfo.launchForce = resultantForce;
+			defaultEventInfo.launchDirection = new Vector2( resultantDirection.x, resultantDirection.y );
 		}
 
 		//-- Give the subclass (if any) a chance to modify the default launch event
