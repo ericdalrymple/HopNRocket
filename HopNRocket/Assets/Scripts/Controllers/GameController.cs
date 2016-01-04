@@ -23,7 +23,6 @@ public class GameController
 	}
 
 	//-- Messages sent by this MonoBehaviour
-	private static readonly string MESSAGE_GAME_PLAYING = "OnGamePlaying";
 	private static readonly string MESSAGE_GAME_STATE_CHANGE = "OnGameStateChange";
 
 	//-- Singleton instance
@@ -122,27 +121,6 @@ public class GameController
 		SetGameState( GameState.GAME_OVER );
 	}
 
-	void NotifyMessage( string message )
-	{
-		if( null != m_Player )
-		{
-			m_Player.BroadcastMessage( message
-			                         , SendMessageOptions.DontRequireReceiver );
-		}
-
-		if( null != m_UIManager )
-		{
-			m_UIManager.BroadcastMessage( message
-			                            , SendMessageOptions.DontRequireReceiver );
-		}
-
-		if( null != m_World )
-		{
-			m_World.BroadcastMessage( message
-			                   		, SendMessageOptions.DontRequireReceiver );
-		}
-	}
-
 	void NotifyStateChange( GameState oldState, GameState newState )
 	{
 		//-- Prepare event information
@@ -155,7 +133,7 @@ public class GameController
 		//-- Send the event
 		if( null != m_Player )
 		{
-			m_Player.BroadcastMessage( MESSAGE_GAME_STATE_CHANGE
+ 			m_Player.BroadcastMessage( MESSAGE_GAME_STATE_CHANGE
 			                         , eventInfo
 			                         , SendMessageOptions.DontRequireReceiver );
 		}
@@ -193,8 +171,6 @@ public class GameController
 			
 		case GameState.PLAYING:
 		{
-			NotifyMessage( MESSAGE_GAME_PLAYING );
-
 			break;
 		}
 			
