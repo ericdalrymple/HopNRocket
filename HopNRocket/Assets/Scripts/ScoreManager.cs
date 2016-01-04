@@ -11,9 +11,6 @@ public class ScoreManager
 		get{ return s_Instance; }
 	}
 
-	private uint m_BestScore = 0;
-	private uint m_CurrentScore = 0;
-
 	void Awake()
 	{
 		//-- Apply singleton logic upon object creation; only one
