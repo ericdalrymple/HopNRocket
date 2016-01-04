@@ -4,9 +4,6 @@ using System.Collections;
 public class WorldScroller
 : MonoBehaviour
 {
-	//-- Messages send by this MonoBehaviour
-	private static readonly string MESSAGE_SCROLLABLE_EXIT = "OnScrollableExit";
-
 	//-- Constants
 	private static readonly string SCROLLABLE_TAG = "Scrollable";
 
@@ -26,16 +23,6 @@ public class WorldScroller
 	{
 		UpdateScrollables();
 		UpdateScrollSpeed();
-	}
-
-	void OnTriggerExit2D( Collider2D collider )
-	{
-		GameObject colliderObject = collider.gameObject;
-		if( colliderObject.CompareTag( SCROLLABLE_TAG ) )
-		{
-			colliderObject.SendMessage( MESSAGE_SCROLLABLE_EXIT
-			                          , SendMessageOptions.DontRequireReceiver );
-		}
 	}
 
 	void UpdateScrollables()
