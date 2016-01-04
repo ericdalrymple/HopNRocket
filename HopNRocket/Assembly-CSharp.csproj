@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Abstract\LayerSelector.cs" />
      <Compile Include="Assets\Scripts\AutoSizeCollider.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\AffectScrollSpeedBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\DestroyBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\SendMessageBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\TurretShootBehaviour.cs" />
@@ -61,6 +62,7 @@
      <Compile Include="Assets\Scripts\FitToCeiling.cs" />
      <Compile Include="Assets\Scripts\FitToVisibleArea.cs" />
      <Compile Include="Assets\Scripts\GroundManager.cs" />
+     <Compile Include="Assets\Scripts\HUDPopulator.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\AbstractProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\DefaultProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\IntervalProjectileLauncher.cs" />
@@ -74,11 +76,17 @@
      <Compile Include="Assets\Scripts\TurretSpawner.cs" />
      <Compile Include="Assets\Scripts\UIManager.cs" />
      <Compile Include="Assets\Scripts\WorldScroller.cs" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
