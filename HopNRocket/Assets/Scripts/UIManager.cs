@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * Handles the manipulation of UI screens according to the game state.
+ */
 public class UIManager
 : MonoBehaviour
 {
