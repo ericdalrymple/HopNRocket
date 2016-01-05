@@ -69,6 +69,10 @@
      <Compile Include="Assets\Scripts\LayoutScripts\AutoSizeCollider.cs" />
      <Compile Include="Assets\Scripts\LayoutScripts\FitToCeiling.cs" />
      <Compile Include="Assets\Scripts\LayoutScripts\FitToVisibleArea.cs" />
+     <Compile Include="Assets\Scripts\Pillars\ExtendColliderToCeiling.cs" />
+     <Compile Include="Assets\Scripts\Pillars\ExtendColliderToFloor.cs" />
+     <Compile Include="Assets\Scripts\Pillars\TileToCeiling.cs" />
+     <Compile Include="Assets\Scripts\Pillars\TileToFloor.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\AbstractProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\DefaultProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\IntervalProjectileLauncher.cs" />
