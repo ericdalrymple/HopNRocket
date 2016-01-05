@@ -11,11 +11,13 @@ public class HUDPopulator
 
 	public Text m_BestScoreText;
 	public Text m_ScoreText;
-	public Text m_TokenText;
+	public Text m_SpecialText;
 
 	private float m_CurrentScore = 0;
 	private float m_NewScore = 0;
 	private float m_OldScore = 0;
+
+	private int m_CurrentSpecialCount = 0;
 
 	private StringBuilder m_ConcatBuffer = new StringBuilder();
 
@@ -33,7 +35,7 @@ public class HUDPopulator
 	void Update()
 	{
 		UpdateScoreLabel();
-		UpdateTokenLabel();
+		UpdateSpecialLabel();
 	}
 
 	void UpdateScoreLabel()
@@ -81,8 +83,16 @@ public class HUDPopulator
 		}
 	}
 
-	void UpdateTokenLabel()
+	void UpdateSpecialLabel()
 	{
+		int specialCount = InventoryManager.instance.itemCount;
+		if( specialCount != m_CurrentSpecialCount )
+		{
+			m_CurrentSpecialCount = specialCount;
 
+			m_ConcatBuffer.Length = 0;
+			m_ConcatBuffer.Append( m_CurrentSpecialCount );
+			m_SpecialText.text = m_ConcatBuffer.ToString();
+		}
 	}
 }
