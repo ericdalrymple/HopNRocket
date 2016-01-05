@@ -10,17 +10,20 @@ public class PlayerController
 	{
 		  JUMP = 0
 		, SHOOT
+		, SPECIAL
 	}
 
 	//-- Animator parameter and state hashes
 	private static readonly int ANIMATOR_HASH_DEAD = Animator.StringToHash( "Dead" );
 	private static readonly int ANIMATOR_HASH_JUMP = Animator.StringToHash( "Jump" );
 	private static readonly int ANIMATOR_HASH_SHOOT = Animator.StringToHash( "Shoot" );
+	private static readonly int ANIMATOR_HASH_SPECIAL = Animator.StringToHash( "Special" );
+	private static readonly int ANIMATOR_HASH_SPECIAL_COUNT = Animator.StringToHash( "SpecialCount" );
 	private static readonly int ANIMATOR_HASH_IDLE_STATE = Animator.StringToHash( "Base Layer.Idle" );
 	private static readonly int ANIMATOR_HASH_POST_JUMP_STATE = Animator.StringToHash( "Base Layer.JumpCycle.PostJump" );
 
 	//-- Member variables
-	public float m_JumpForce;
+	public float m_JumpForce = 5.0f;
 	public GameObject m_GameWorld;
 
 	private bool m_DisableInput;
@@ -205,6 +208,18 @@ public class PlayerController
 						m_Animator.SetTrigger( ANIMATOR_HASH_SHOOT );
 					}
 
+					break;
+				}
+
+				case PlayerAction.SPECIAL:
+				{
+					actionTriggered = (Input.GetKeyDown( "left" ) || Input.GetButtonDown ( "Fire2" ));
+					if( actionTriggered )
+					{
+						//-- Flip the shoot toggle on the animator
+						m_Animator.SetInteger( ANIMATOR_HASH_SPECIAL_COUNT, InventoryManager.instance.itemCount );
+						m_Animator.SetTrigger( ANIMATOR_HASH_SPECIAL );
+					}
 					break;
 				}
 			}
