@@ -46,53 +46,50 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Abstract\LayerSelector.cs" />
+     <Compile Include="Assets\Scripts\Abstract\SingletonObject.cs" />
      <Compile Include="Assets\Scripts\Behaviours\AffectScrollSpeedBehaviour.cs" />
-     <Compile Include="Assets\Scripts\Behaviours\ConsumeSpecialBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\DestroyBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\SendMessageBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\TurretShootBehaviour.cs" />
      <Compile Include="Assets\Scripts\Collectible.cs" />
+     <Compile Include="Assets\Scripts\Collections\EnemyCollection.cs" />
+     <Compile Include="Assets\Scripts\Collections\GroundTileCollection.cs" />
+     <Compile Include="Assets\Scripts\Collections\ProjectileCollection.cs" />
      <Compile Include="Assets\Scripts\Controllers\GameController.cs" />
      <Compile Include="Assets\Scripts\Controllers\GroundTileController.cs" />
      <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Controllers\TurretController.cs" />
      <Compile Include="Assets\Scripts\DamageScripts\DamageOnCollision.cs" />
      <Compile Include="Assets\Scripts\DamageScripts\DamageOnContact.cs" />
+     <Compile Include="Assets\Scripts\DestroyScripts\DestroyOnCollision.cs" />
      <Compile Include="Assets\Scripts\DestroyScripts\DestroyOnContact.cs" />
      <Compile Include="Assets\Scripts\DestroyScripts\DestroyOnWorldExit.cs" />
+     <Compile Include="Assets\Scripts\Killable.cs" />
      <Compile Include="Assets\Scripts\LayoutScripts\AutoSizeCollider.cs" />
      <Compile Include="Assets\Scripts\LayoutScripts\FitToCeiling.cs" />
      <Compile Include="Assets\Scripts\LayoutScripts\FitToVisibleArea.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\AbstractProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\DefaultProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\ProjectileLaunchers\IntervalProjectileLauncher.cs" />
-     <Compile Include="Assets\Scripts\ProjectileLaunchers\PlayerJumpProjectileLauncher.cs" />
-     <Compile Include="Assets\Scripts\ProjectileLaunchers\PlayerShootProjectileLauncher.cs" />
      <Compile Include="Assets\Scripts\Projectiles\AbstractProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\AcceleratingProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\BasicProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\LobProjectile.cs" />
+     <Compile Include="Assets\Scripts\Systems\EntitySpawner.cs" />
      <Compile Include="Assets\Scripts\Systems\GameControllerSystem.cs" />
      <Compile Include="Assets\Scripts\Systems\GroundManager.cs" />
      <Compile Include="Assets\Scripts\Systems\InventoryManager.cs" />
      <Compile Include="Assets\Scripts\Systems\ScoreManager.cs" />
-     <Compile Include="Assets\Scripts\Systems\TurretSpawner.cs" />
      <Compile Include="Assets\Scripts\Systems\UIManager.cs" />
      <Compile Include="Assets\Scripts\Systems\WorldScroller.cs" />
      <Compile Include="Assets\Scripts\UIPopulators\GameOverScreenPopulator.cs" />
      <Compile Include="Assets\Scripts\UIPopulators\HUDPopulator.cs" />
      <Compile Include="Assets\Scripts\WorldScrollable.cs" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
