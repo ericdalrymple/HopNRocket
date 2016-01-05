@@ -46,7 +46,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Abstract\LayerSelector.cs" />
-     <Compile Include="Assets\Scripts\Abstract\SingletonObject.cs" />
+     <Compile Include="Assets\Scripts\Abstract\SingletonGameObject.cs" />
+     <Compile Include="Assets\Scripts\Abstract\StaticAccessGameObject.cs" />
      <Compile Include="Assets\Scripts\Behaviours\AffectScrollSpeedBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\DestroyBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\SendMessageBehaviour.cs" />

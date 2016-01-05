@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Assertions;
 using System.Collections;
 using System.Collections.Generic;
 
 public class GameController
-: SingletonObject<GameController>
+: SingletonGameObject<GameController>
 {
 	//-- States for the game's overall state machine
 	public enum GameState

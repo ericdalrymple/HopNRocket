@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ProjectileCollection
-: SingletonObject<ProjectileCollection>
+: StaticAccessGameObject<ProjectileCollection>
 {
 
 }

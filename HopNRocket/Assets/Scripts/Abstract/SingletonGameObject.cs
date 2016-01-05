@@ -5,11 +5,11 @@ using System.Collections;
  * Superclass for game object controller scripts that need to
  * persist across levels and only have one active instance.
  */
-public class SingletonObject<T>
+public class SingletonGameObject<T>
 : MonoBehaviour
-where T : SingletonObject<T>
+where T : SingletonGameObject<T>
 {
-	private static SingletonObject<T> s_Instance = null;
+	private static SingletonGameObject<T> s_Instance = null;
 	
 	public static T instance
 	{
