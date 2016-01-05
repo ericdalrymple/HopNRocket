@@ -18,6 +18,7 @@ public class WorldScroller
 
 
 	//-- Attributes
+	public float relativeScrollSpeed{ get{ return m_CurrentScrollSpeed / m_InitialScrollSpeed; } }
 	public float scrollSpeed{ get{ return m_CurrentScrollSpeed; } }
 
 
