@@ -16,6 +16,9 @@ using System.Collections;
 public abstract class AbstractProjectile
 : MonoBehaviour
 {
+	//-- Messages supported by this MonoBehaviour
+	public static readonly string MESSAGE_LAUNCH = "OnProjectileLaunch";
+
 	/** Message-based callback informing the projectile of its launch context. */
 	protected abstract void OnProjectileLaunch( AbstractProjectileLauncher.ProjectileLaunchEvent eventInfo );
 }

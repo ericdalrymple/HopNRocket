@@ -7,6 +7,8 @@ public class TurretShootBehaviour
 {
 	public override void OnStateEnter( Animator animator, AnimatorStateInfo stateInfo, int layerIndex )
 	{
-		animator.gameObject.BroadcastMessage( "LaunchProjectile", SendMessageOptions.DontRequireReceiver );
+		animator.gameObject.BroadcastMessage( AbstractProjectileLauncher.MESSAGE_LAUNCH_PROJECTILE
+		                                    , AbstractProjectileLauncher.NULL_LAUNCHER_ID
+		                                    , SendMessageOptions.DontRequireReceiver );
 	}
 }

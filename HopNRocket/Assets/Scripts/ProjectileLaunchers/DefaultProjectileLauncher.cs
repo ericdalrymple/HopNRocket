@@ -24,19 +24,10 @@ public class DefaultProjectileLauncher
 	protected sealed override ProjectileLaunchEvent GenerateLaunchEvent()
 	{
 		//-- Resolve the direction of the shot relavitve to the world
-		Transform objectTransform = gameObject.transform;
-		Vector3 direction = new Vector3( 1.0f, 0.0f, 0.0f );
-		while( null != objectTransform )
-		{
-			//-- Transform the direction by the transform
-			direction = objectTransform.TransformDirection( direction );
-
-			//-- Get the parent game object
-			objectTransform = objectTransform.parent;
-		}
+		Vector3 direction = gameObject.transform.TransformVector( new Vector3( 1.0f, 0.0f, 0.0f ) );
 
 		float resultantForce = m_LaunchForce;
-		Vector2 resultantDirection = direction;
+		Vector2 resultantDirection = direction.normalized;	//-- Normalized in case the transform scale changed the length of the vector
 
 		//-- Add the velocity of the projectile launcher to acheive a
 		//   nice smooth-looking launch

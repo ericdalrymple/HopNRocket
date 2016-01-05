@@ -29,15 +29,21 @@ public abstract class AbstractProjectileLauncher
 	}
 
 
-	//-- Messages sent by this MonoBehaviour
+	//-- Messages supported by this MonoBehaviour
 
-	/** Message sent to every projectile launched by this projectile launcher upon creation. */
-	private static readonly string MESSAGE_PROJECTILE_LAUNCHED = "OnProjectileLaunch";
+	/** Fires a projectile */
+	public static readonly string MESSAGE_LAUNCH_PROJECTILE = "OnLaunchProjectile";
 
 
-	//-- Member variables
+	//-- Constants
+	public static readonly string NULL_LAUNCHER_ID = "";
 
-	/** Type of projectile launched by this projectile launcher. */
+	//-- Settings
+
+	[Tooltip( "Unique ID to identify this launcher within its object hierarchy." )]
+	public string m_LauncherId = NULL_LAUNCHER_ID;
+
+	[Tooltip( "Type of projectile launched by this projectile launcher.")]
 	public GameObject m_ProjectilePrefab;
 
 
@@ -47,6 +53,17 @@ public abstract class AbstractProjectileLauncher
 	 * Hook for discrete subclasses to produce the launch parameters for their projectiles.
 	 */
 	protected abstract ProjectileLaunchEvent GenerateLaunchEvent();
+
+
+	//-- Message handlers
+
+	void OnLaunchProjectile( string launcherId )
+	{
+		if( launcherId.Equals( m_LauncherId ) )
+		{
+			LaunchProjectile();
+		}
+	}
 
 
 	//-- Class body
@@ -66,7 +83,7 @@ public abstract class AbstractProjectileLauncher
 
 		//-- Generate and send launch parameters to the new projectile
 		ProjectileLaunchEvent launchEvent = GenerateLaunchEvent();
-		projectileInstance.SendMessage( MESSAGE_PROJECTILE_LAUNCHED
+		projectileInstance.SendMessage( AbstractProjectile.MESSAGE_LAUNCH
 				                      , launchEvent
 				                      , SendMessageOptions.RequireReceiver );
 	}
