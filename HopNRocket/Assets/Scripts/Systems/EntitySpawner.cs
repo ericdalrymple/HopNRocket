@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EntitySpawner
-: GameControllerSystem<EntitySpawner>
+: MonoBehaviour
 {
 	/**
 	 * Custom padding struct to improve editor interface.
@@ -16,7 +17,8 @@ public class EntitySpawner
 	}
 
 	//-- Constants
-	private static readonly float OFFSCREEN_SPAWN_PADDING = 2.0f;
+	private static readonly float OFFSCREEN_SPAWN_PADDING = 3.0f;
+	private static readonly Vector3 FLIP_SCALE_Y = new Vector3( 1.0f, -1.0f, 1.0f );
 
 
 	//-- Settings
@@ -31,6 +33,8 @@ public class EntitySpawner
 
 	//-- Members
 	private bool m_FirstTick = true;
+	private float m_SpawnPositionX;
+	private float m_SpawnAreaCenterY;
 	private Vector2 m_SpawnPositionRange = new Vector2();
 
 	void Start()
@@ -47,36 +51,49 @@ public class EntitySpawner
 			//   deciding a spawn range.
 			InitializeSpawnRange();
 
-			//-- Start spawn loops
-			StartCoroutine( SpawnLoopCollectibles() );
-			StartCoroutine( SpawnLoopTurrets() );
-
 			//-- Mark first tick complete
 			m_FirstTick = false;
 		}
 	}
 
-	float GenerateSpawnHeight()
-	{
-//		Random.Range( m_GameArea.b );
-		return 0.0f;
-	}
-
 	void InitializeSpawnRange()
 	{
+		//-- Access the game area object
 		BoxCollider2D gameArea = null;
 		GameObject gameAreaObject = GameObject.FindGameObjectWithTag( "GameArea" );
 		if( null != gameAreaObject )
 		{
 			gameArea = gameAreaObject.GetComponent<BoxCollider2D>();
 		}
-		
+
 		Assert.IsNotNull( gameArea, "The game has no GameArea or its GameArea has not been initialized." );
 		if( null != gameArea )
 		{
-			m_SpawnPositionRange.x = GroundManager.instance.surfaceY;
-			m_SpawnPositionRange.y = gameArea.bounds.max.y;
+			//-- Compute the vertical spawning range
+			m_SpawnPositionRange.x = GroundManager.instance.surfaceY + m_Padding.bottom;
+			m_SpawnPositionRange.y = gameArea.bounds.max.y - m_Padding.top;
+
+			//-- Compute the center of the spawning area
+			m_SpawnAreaCenterY = (m_SpawnPositionRange.x + m_SpawnPositionRange.y) * 0.5f;
+
+			//-- Compute the x-position at which to spawn objects
+			m_SpawnPositionX = gameArea.bounds.max.x + OFFSCREEN_SPAWN_PADDING;
 		}
+	}
+
+	void OnGameStateChange( GameController.GameStateEvent eventInfo )
+	{
+		if( GameController.GameState.PLAYING == eventInfo.currentState )
+		{
+			//-- Start spawn loops when game starts
+			StartCoroutine( SpawnLoopCollectibles() );
+			StartCoroutine( SpawnLoopTurrets() );
+		}
+	}
+
+	float GenerateSpawnY()
+	{
+		return Random.Range( m_SpawnPositionRange.x, m_SpawnPositionRange.y );
 	}
 
 	IEnumerator SpawnLoopCollectibles()
@@ -119,6 +136,27 @@ public class EntitySpawner
 
 	void SpawnTurret()
 	{
+		//-- Pick a turret at random
+		int turretIndex = Random.Range( 0, m_TurretPrefabs.Length );
 
+		//-- Pick a position along the y-axis at the horizontal spawn location
+		Vector3 spawnPosition = new Vector3( m_SpawnPositionX
+										   , GenerateSpawnY()
+										   , 0.0f );
+
+		//-- Spawn the turret
+		GameObject turretInstance = Instantiate( m_TurretPrefabs[turretIndex]
+									           , spawnPosition
+									           , Quaternion.identity ) as GameObject;
+
+		//-- We need to flip it if it's in the top half of the spawn area
+		if( spawnPosition.y > m_SpawnAreaCenterY )
+		{
+			Vector3 flippedScale = Vector3.Scale( turretInstance.transform.localScale, FLIP_SCALE_Y );
+			turretInstance.transform.localScale = flippedScale;
+		}
+
+		//-- Set the Enemies game object as the new turret's parent
+		turretInstance.transform.SetParent( EnemyCollection.instance.gameObject.transform );
 	}
 }
