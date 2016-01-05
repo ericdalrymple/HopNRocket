@@ -6,7 +6,7 @@ public class GroundTileController
 {
 	void OnTriggerExit2D( Collider2D collider )
 	{
-		GroundManager groundManager = GroundManager.Instance;
+		GroundManager groundManager = GroundManager.instance;
 		if( null == groundManager )
 		{
 			//-- Need the ground manager to loop the tile
