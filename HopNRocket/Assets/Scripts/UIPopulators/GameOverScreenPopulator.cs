@@ -18,7 +18,7 @@ public class GameOverScreenPopulator
 			return;
 		}
 
-		if( null != m_BestScoreText )
+ 		if( null != m_BestScoreText )
 		{
 			m_ConcatBuffer.Length = 0;
 			m_ConcatBuffer.Append( ScoreManager.instance.bestScore );
