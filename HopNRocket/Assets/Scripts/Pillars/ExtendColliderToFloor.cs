@@ -26,7 +26,7 @@ public class ExtendColliderToFloor
 	{
 		float currentTop = m_Collider.bounds.max.y;
 		float oldHeight = m_Collider.size.y;
-		float newHeight = m_Collider.bounds.max.y - floorY;
+		float newHeight = currentTop - floorY;
 		float pushDown = (newHeight - oldHeight) * 0.5f;
 
 		m_Collider.offset += new Vector2( 0.0f, -pushDown );

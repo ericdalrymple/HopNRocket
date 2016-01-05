@@ -26,7 +26,7 @@ public class ExtendColliderToCeiling
 	{
 		float currentBottom = m_Collider.bounds.min.y;
 		float oldHeight = m_Collider.size.y;
-		float newHeight = ceilingY - m_Collider.bounds.min.y;
+		float newHeight = ceilingY - currentBottom;
 		float pushUp = (newHeight - oldHeight) * 0.5f;
 
 		m_Collider.offset += new Vector2( 0.0f, pushUp );
