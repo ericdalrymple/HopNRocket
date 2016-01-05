@@ -14,9 +14,9 @@ public class TurretController
 		m_Animator = GetComponent<Animator>();
 	}
 
-	void OnTriggerEnter2D( Collider2D collider )
+	void OnProximityEnter( GameObject target )
 	{
-		if( collider.gameObject.CompareTag( "Player" ) )
+		if( target.CompareTag( "Player" ) )
 		{
 			if( null != m_Animator )
 			{
@@ -25,9 +25,9 @@ public class TurretController
 		}
 	}
 
-	void OnTriggerExit2D( Collider2D collider )
+	void OnProximityExit( GameObject target )
 	{
-		if( collider.gameObject.CompareTag( "Player" ) )
+		if( target.CompareTag( "Player" ) )
 		{
 			if( null != m_Animator )
 			{

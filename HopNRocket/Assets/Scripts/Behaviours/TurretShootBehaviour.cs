@@ -7,8 +7,12 @@ public class TurretShootBehaviour
 {
 	public override void OnStateEnter( Animator animator, AnimatorStateInfo stateInfo, int layerIndex )
 	{
-		animator.gameObject.BroadcastMessage( AbstractProjectileLauncher.MESSAGE_LAUNCH_PROJECTILE
-		                                    , AbstractProjectileLauncher.NULL_LAUNCHER_ID
-		                                    , SendMessageOptions.DontRequireReceiver );
+		Transform turretAnimatorParent = animator.transform.parent;
+		if( null != turretAnimatorParent )
+		{
+			turretAnimatorParent.gameObject.BroadcastMessage( AbstractProjectileLauncher.MESSAGE_LAUNCH_PROJECTILE
+						                                    , AbstractProjectileLauncher.NULL_LAUNCHER_ID
+						                                    , SendMessageOptions.DontRequireReceiver );
+		}
 	}
 }
