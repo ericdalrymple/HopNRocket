@@ -5,7 +5,12 @@ public class LayerSelector
 : MonoBehaviour
 {
 	public string[] m_TargetLayerNames;
-	
+
+	protected int layerCount
+	{
+		get{ return m_TargetLayerNames.Length; }
+	}
+
 	private int[] m_TargetLayerIndices;
 	
 	void Awake()
