@@ -4,8 +4,6 @@ using System.Collections;
 public class TurretController
 : MonoBehaviour
 {
-	public int m_Score;
-
 	//-- Animator parameter hashes
 	private static readonly int m_HashPlayerDetected = Animator.StringToHash( "PlayerDetected" );
 
@@ -14,11 +12,6 @@ public class TurretController
 	void Start()
 	{
 		m_Animator = GetComponent<Animator>();
-	}
-
-	void Update()
-	{
-	
 	}
 
 	void OnTriggerEnter2D( Collider2D collider )

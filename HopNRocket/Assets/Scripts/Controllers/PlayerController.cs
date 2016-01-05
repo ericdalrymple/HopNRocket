@@ -117,13 +117,7 @@ public class PlayerController
 				{
 					if( stateInfo.fullPathHash == HASH_STATE_JUMP )
 					{
-						//-- Jump up
-					    Jump( m_JumpForceVector );
-
-						//-- Fire a projectile downwards
-						gameObject.BroadcastMessage( AbstractProjectileLauncher.MESSAGE_LAUNCH_PROJECTILE
-					                               , LAUNCHER_ID_JUMP );
-
+						DoJumpAction();
 						consume = true;
 					}
 
@@ -134,13 +128,7 @@ public class PlayerController
 				{
 					if( stateInfo.fullPathHash == HASH_STATE_SHOOT )
 					{
-						//-- Jump resulting from an offensive shot
-					    Jump( m_ShotForceVector );
-						
-						//-- Fire a projectile forwards
-						gameObject.BroadcastMessage( AbstractProjectileLauncher.MESSAGE_LAUNCH_PROJECTILE
-						                           , LAUNCHER_ID_OFFENSIVE );
-
+						DoShootAction();
 						consume = true;
 					}
 
@@ -151,18 +139,7 @@ public class PlayerController
 				{
 					if( stateInfo.fullPathHash == HASH_STATE_SPECIAL )
 					{
-						bool consumed = InventoryManager.instance.ConsumeItem();
-						if( consumed )
-						{
-							//TODO Destroy all turret
-							
-							//-- Reset the game's scroll speed
-							if( WorldScroller.initialized )
-							{
-								WorldScroller.instance.ResetScrollSpeed();
-							}
-						}
-						
+						DoSpecialAction();
 						consume = true;
 					}
 					
@@ -177,6 +154,43 @@ public class PlayerController
 			}
 
 			action = nextAction;
+		}
+	}
+
+	void DoJumpAction()
+	{
+		//-- Jump up
+		Jump( m_JumpForceVector );
+		
+		//-- Fire a projectile downwards
+		gameObject.BroadcastMessage( AbstractProjectileLauncher.MESSAGE_LAUNCH_PROJECTILE
+		                           , LAUNCHER_ID_JUMP );
+	}
+
+	void DoShootAction()
+	{
+		//-- Jump resulting from an offensive shot
+		Jump( m_ShotForceVector );
+		
+		//-- Fire a projectile forwards
+		gameObject.BroadcastMessage( AbstractProjectileLauncher.MESSAGE_LAUNCH_PROJECTILE
+		                           , LAUNCHER_ID_OFFENSIVE );
+	}
+
+	void DoSpecialAction()
+	{
+		bool consumed = InventoryManager.instance.ConsumeItem();
+		if( consumed )
+		{
+			//-- Kill all turrets
+			EnemyCollection.instance.gameObject.BroadcastMessage( Killable.MESSAGE_KILL
+			                                                    , SendMessageOptions.DontRequireReceiver );
+			
+			//-- Reset the game's scroll speed
+			if( WorldScroller.initialized )
+			{
+				WorldScroller.instance.ResetScrollSpeed();
+			}
 		}
 	}
 

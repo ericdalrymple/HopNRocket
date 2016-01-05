@@ -24,9 +24,11 @@ public class EntitySpawner
 	//-- Settings
 	public float m_InitialSpawnDelay;
 	public float m_CollectibleSpawnChance;
-	public int m_TurretSpawnInterval;
+	public float m_TurretSpawnInterval;
 	public SpawnerPadding m_Padding;
 
+	public GameObject m_FloorPillarPrefab;
+	public GameObject m_CeilingPillarPrefab;
 	public GameObject[] m_CollectiblePrefabs;
 	public GameObject[] m_TurretPrefabs;
 
@@ -36,11 +38,6 @@ public class EntitySpawner
 	private float m_SpawnPositionX;
 	private float m_SpawnAreaCenterY;
 	private Vector2 m_SpawnPositionRange = new Vector2();
-
-	void Start()
-	{
-
-	}
 
 	void Update()
 	{
@@ -105,9 +102,9 @@ public class EntitySpawner
 		while( GameController.instance.IsGamePlaying() )
 		{
 			//-- Roll the dice to see if we should spawn a collectible
-			if( Random.value > m_CollectibleSpawnChance )
+			if( Random.value <= m_CollectibleSpawnChance )
 			{
-				SpawnCollectible();
+//				SpawnCollectible();
 			}
 
 			//-- Wait another spawn interval
@@ -121,17 +118,36 @@ public class EntitySpawner
 
 		while( GameController.instance.IsGamePlaying() )
 		{
-			//-- Spawn a turret
-			SpawnTurret();
+			//-- Roll the dice to see if we should spawn a collectible
+			if( Random.value <= m_CollectibleSpawnChance )
+			{
+				SpawnCollectible();
+			}
+			else
+			{
+				//-- Spawn a turret
+				SpawnTurret();
+			}
 
 			//-- Wait another spawn interval
-			yield return new WaitForSeconds( m_TurretSpawnInterval );
+			yield return new WaitForSeconds( m_TurretSpawnInterval / WorldScroller.instance.relativeScrollSpeed );
 		}
 	}
 
 	void SpawnCollectible()
 	{
+		//-- Pick a collectible at random
+		int collectibleIndex = Random.Range( 0, m_CollectiblePrefabs.Length );
 		
+		//-- Pick a position along the y-axis at the horizontal spawn location
+		Vector3 spawnPosition = new Vector3( m_SpawnPositionX
+		                                   , GenerateSpawnY()
+		                                   , 0.0f );
+		
+		//-- Spawn the collectible
+		Instantiate( m_CollectiblePrefabs[collectibleIndex]
+                   , spawnPosition
+                   , Quaternion.identity );
 	}
 
 	void SpawnTurret()
@@ -154,6 +170,25 @@ public class EntitySpawner
 		{
 			Vector3 flippedScale = Vector3.Scale( turretInstance.transform.localScale, FLIP_SCALE_Y );
 			turretInstance.transform.localScale = flippedScale;
+
+			//-- Spawn ceiling pillar
+			if( null != m_CeilingPillarPrefab )
+			{
+				//-- Spawn floor pillar
+				GameObject pillarInstance = Instantiate( m_CeilingPillarPrefab
+				                                       , spawnPosition
+				                                       , Quaternion.identity ) as GameObject;
+			}
+		}
+		else
+		{
+			if( null != m_FloorPillarPrefab )
+			{
+				//-- Spawn floor pillar
+				GameObject pillarInstance = Instantiate( m_FloorPillarPrefab
+				                                       , spawnPosition
+				                                       , Quaternion.identity ) as GameObject;
+			}
 		}
 
 		//-- Set the Enemies game object as the new turret's parent
