@@ -1,16 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Behaviours\DestroyBehaviour.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DamageScripts\DamageOnContact.cs">
     <Files>
-      <File FileName="Assets\Scripts\Systems\ScoreManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Killable.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Behaviours\DestroyBehaviour.cs" Line="20" Column="1" />
-      <File FileName="Assets\Scripts\Controllers\TurretController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Systems\EntitySpawner.cs" Line="168" Column="5" />
-      <File FileName="Assets\Scripts\Systems\WorldScroller.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Pillars\TileToCeiling.cs" Line="50" Column="47" />
-      <File FileName="Assets\Scripts\Pillars\TileToFloor.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Pillars\ExtendColliderToCeiling.cs" Line="22" Column="4" />
+      <File FileName="Assets\Scripts\DamageScripts\DamageOnContact.cs" Line="28" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

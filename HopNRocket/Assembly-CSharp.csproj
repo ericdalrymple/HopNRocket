@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\Behaviours\AffectScrollSpeedBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\DestroyBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\SendMessageBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\TogglePlayerInputBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\TurretShootBehaviour.cs" />
      <Compile Include="Assets\Scripts\Collectible.cs" />
      <Compile Include="Assets\Scripts\Collections\EnemyCollection.cs" />
@@ -60,12 +61,11 @@
      <Compile Include="Assets\Scripts\Controllers\GroundTileController.cs" />
      <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Controllers\TurretController.cs" />
-     <Compile Include="Assets\Scripts\DamageScripts\DamageOnCollision.cs" />
      <Compile Include="Assets\Scripts\DamageScripts\DamageOnContact.cs" />
+     <Compile Include="Assets\Scripts\DamageScripts\Killable.cs" />
      <Compile Include="Assets\Scripts\DestroyScripts\DestroyOnCollision.cs" />
      <Compile Include="Assets\Scripts\DestroyScripts\DestroyOnContact.cs" />
      <Compile Include="Assets\Scripts\DestroyScripts\DestroyOnWorldExit.cs" />
-     <Compile Include="Assets\Scripts\Killable.cs" />
      <Compile Include="Assets\Scripts\LayoutScripts\AutoSizeCollider.cs" />
      <Compile Include="Assets\Scripts\LayoutScripts\FitToCeiling.cs" />
      <Compile Include="Assets\Scripts\LayoutScripts\FitToVisibleArea.cs" />
@@ -80,6 +80,7 @@
      <Compile Include="Assets\Scripts\Projectiles\AcceleratingProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\BasicProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\LobProjectile.cs" />
+     <Compile Include="Assets\Scripts\ProximityDetector.cs" />
      <Compile Include="Assets\Scripts\Systems\EntitySpawner.cs" />
      <Compile Include="Assets\Scripts\Systems\GameControllerSystem.cs" />
      <Compile Include="Assets\Scripts\Systems\GroundManager.cs" />
