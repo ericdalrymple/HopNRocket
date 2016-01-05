@@ -83,8 +83,7 @@ public class EntitySpawner
 		if( GameController.GameState.PLAYING == eventInfo.currentState )
 		{
 			//-- Start spawn loops when game starts
-			StartCoroutine( SpawnLoopCollectibles() );
-			StartCoroutine( SpawnLoopTurrets() );
+			StartCoroutine( SpawnLoop() );
 		}
 	}
 
@@ -93,26 +92,7 @@ public class EntitySpawner
 		return Random.Range( m_SpawnPositionRange.x, m_SpawnPositionRange.y );
 	}
 
-	IEnumerator SpawnLoopCollectibles()
-	{
-		//-- Wait for the initial spawn duration plus half of another
-		//   one so that our collectibles spawn between turrets
-		yield return new WaitForSeconds( m_InitialSpawnDelay + m_TurretSpawnInterval * 0.5f );
-		
-		while( GameController.instance.IsGamePlaying() )
-		{
-			//-- Roll the dice to see if we should spawn a collectible
-			if( Random.value <= m_CollectibleSpawnChance )
-			{
-//				SpawnCollectible();
-			}
-
-			//-- Wait another spawn interval
-			yield return new WaitForSeconds( m_TurretSpawnInterval );
-		}
-	}
-
-	IEnumerator SpawnLoopTurrets()
+	IEnumerator SpawnLoop()
 	{
 		yield return new WaitForSeconds( m_InitialSpawnDelay );
 
@@ -175,9 +155,9 @@ public class EntitySpawner
 			if( null != m_CeilingPillarPrefab )
 			{
 				//-- Spawn floor pillar
-				GameObject pillarInstance = Instantiate( m_CeilingPillarPrefab
-				                                       , spawnPosition
-				                                       , Quaternion.identity ) as GameObject;
+				Instantiate( m_CeilingPillarPrefab
+                           , spawnPosition
+                           , Quaternion.identity );
 			}
 		}
 		else
@@ -185,9 +165,9 @@ public class EntitySpawner
 			if( null != m_FloorPillarPrefab )
 			{
 				//-- Spawn floor pillar
-				GameObject pillarInstance = Instantiate( m_FloorPillarPrefab
-				                                       , spawnPosition
-				                                       , Quaternion.identity ) as GameObject;
+				Instantiate( m_FloorPillarPrefab
+                           , spawnPosition
+                           , Quaternion.identity );
 			}
 		}
 
