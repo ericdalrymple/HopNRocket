@@ -42,13 +42,22 @@ public class WorldScroller
 
 	void OnGameStateChange( GameController.GameStateEvent eventInfo )
 	{
-		if( GameController.GameState.GAME_OVER == eventInfo.currentState )
+		switch( eventInfo.currentState )
 		{
-			m_CurrentScrollSpeed = 0.0f;
-		}
-		else if( GameController.GameState.PLAYING == eventInfo.currentState )
-		{
-			m_CurrentScrollSpeed = m_InitialScrollSpeed;
+			case GameController.GameState.GAME_OVER:
+			case GameController.GameState.TITLE_SCREEN:
+			{
+				//-- Don't scroll on title or game over
+				m_CurrentScrollSpeed = 0.0f;
+				break;
+			}
+
+			case GameController.GameState.PLAYING:
+			{
+				//-- Reset scrolling on playing
+				ResetScrollSpeed();
+				break;
+			}
 		}
 	}
 
@@ -68,5 +77,10 @@ public class WorldScroller
 
 		//-- Can't slow down more than the initial scroll speed (handles negative scroll speed increments)
 		m_CurrentScrollSpeed = Mathf.Max( m_InitialScrollSpeed, m_CurrentScrollSpeed );
+	}
+
+	public void ResetScrollSpeed()
+	{
+		m_CurrentScrollSpeed = m_InitialScrollSpeed;
 	}
 }
