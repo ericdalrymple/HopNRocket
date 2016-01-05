@@ -14,13 +14,18 @@ public class PlayerController
 	}
 
 	//-- Animator parameter and state hashes
-	private static readonly int ANIMATOR_HASH_DEAD = Animator.StringToHash( "Dead" );
-	private static readonly int ANIMATOR_HASH_JUMP = Animator.StringToHash( "Jump" );
-	private static readonly int ANIMATOR_HASH_SHOOT = Animator.StringToHash( "Shoot" );
-	private static readonly int ANIMATOR_HASH_SPECIAL = Animator.StringToHash( "Special" );
-	private static readonly int ANIMATOR_HASH_SPECIAL_COUNT = Animator.StringToHash( "SpecialCount" );
-	private static readonly int ANIMATOR_HASH_IDLE_STATE = Animator.StringToHash( "Base Layer.Idle" );
-	private static readonly int ANIMATOR_HASH_POST_JUMP_STATE = Animator.StringToHash( "Base Layer.JumpCycle.PostJump" );
+	private static readonly int HASH_TRIGGER_JUMP = Animator.StringToHash( "Jump" );
+	private static readonly int HASH_TRIGGER_SHOOT = Animator.StringToHash( "Shoot" );
+	private static readonly int HASH_TRIGGER_SPECIAL = Animator.StringToHash( "Special" );
+	private static readonly int HASH_INTEGER_SPECIAL_COUNT = Animator.StringToHash( "SpecialCount" );
+	private static readonly int HASH_STATE_IDLE = Animator.StringToHash( "Base Layer.Idle" );
+	private static readonly int HASH_STATE_JUMP = Animator.StringToHash( "Base Layer.JumpCycle.Jump" );
+	private static readonly int HASH_STATE_SHOOT = Animator.StringToHash( "Base Layer.ShootCycle.Shoot" );
+	private static readonly int HASH_STATE_SPECIAL = Animator.StringToHash( "Base Layer.Special" );
+
+	//-- Constants
+	private static readonly string LAUNCHER_ID_JUMP = "Jump";
+	private static readonly string LAUNCHER_ID_OFFENSIVE = "Offensive";
 
 	//-- Member variables
 	public float m_JumpForce = 5.0f;
@@ -58,16 +63,7 @@ public class PlayerController
 	void Update()
 	{
 		PollInput();
-	}
-
-	void FixedUpdate()
-	{
-		ConsumePhysicsActions();
-	}
-
-	void OnHit()
-	{
-		KillPlayer();
+		ConsumeActions();
 	}
 
 	void OnGameStateChange( GameController.GameStateEvent eventInfo )
@@ -90,7 +86,7 @@ public class PlayerController
 		}
 	}
 
-	void ConsumePhysicsActions()
+	void ConsumeActions()
 	{
 		if( null == m_Body )
 		{
@@ -104,13 +100,15 @@ public class PlayerController
 			return;
 		}
 
+		AnimatorStateInfo stateInfo = m_Animator.GetCurrentAnimatorStateInfo( 0 );
+
 		//-- Go through the queued actions and act upon the ones
 		//   that need to affect physics.
 		LinkedListNode<PlayerAction> action = m_QueuedActions.First;
 		LinkedListNode<PlayerAction> nextAction = null;
 		while( null != action )
 		{
-			bool consume = true;
+			bool consume = false;
 
 			nextAction = action.Next;
 
@@ -118,21 +116,57 @@ public class PlayerController
 			{
 				case PlayerAction.JUMP:
 				{
-					//-- Downwards jump shot
-				    Jump( m_JumpForceVector );
+					if( stateInfo.fullPathHash == HASH_STATE_JUMP )
+					{
+						//-- Jump up
+					    Jump( m_JumpForceVector );
+
+						//-- Fire a projectile downwards
+						gameObject.BroadcastMessage( AbstractProjectileLauncher.MESSAGE_LAUNCH_PROJECTILE
+					                               , LAUNCHER_ID_JUMP );
+
+						consume = true;
+					}
+
 					break;
 				}
 
 				case PlayerAction.SHOOT:
 				{
-					//-- Jump resulting from an offensive shot
-				    Jump( m_ShotForceVector );
+					if( stateInfo.fullPathHash == HASH_STATE_SHOOT )
+					{
+						//-- Jump resulting from an offensive shot
+					    Jump( m_ShotForceVector );
+						
+						//-- Fire a projectile forwards
+						gameObject.BroadcastMessage( AbstractProjectileLauncher.MESSAGE_LAUNCH_PROJECTILE
+						                           , LAUNCHER_ID_OFFENSIVE );
+
+						consume = true;
+					}
+
 					break;
 				}
 
-				default:
+				case PlayerAction.SPECIAL:
 				{
-					consume = false;
+					if( stateInfo.fullPathHash == HASH_STATE_SPECIAL )
+					{
+						bool consumed = InventoryManager.instance.ConsumeItem();
+						if( consumed )
+						{
+							//TODO Destroy all turret
+							
+							//-- Reset the game's scroll speed
+							if( WorldScroller.initialized )
+							{
+								WorldScroller.instance.ResetScrollSpeed();
+							}
+						}
+						
+						consume = true;
+					}
+					
 					break;
 				}
 			}
@@ -157,24 +191,10 @@ public class PlayerController
 		m_Body.AddForce( m_ResolvedForceVector, ForceMode2D.Impulse );
 	}
 
-	void KillPlayer()
-	{
-		//-- Flip the death toggle on the animator
-		m_Animator.SetTrigger( ANIMATOR_HASH_DEAD );
-	}
-
 	void PollInput()
 	{
 		//-- Don't poll when input is disable because of game state
 		if( m_DisableInput )
-		{
-			return;
-		}
-
-		//-- Don't poll unless the player is in idle state
-		AnimatorStateInfo stateInfo = m_Animator.GetCurrentAnimatorStateInfo( 0 );
-		if( (ANIMATOR_HASH_IDLE_STATE != stateInfo.fullPathHash)
-		 && (ANIMATOR_HASH_POST_JUMP_STATE != stateInfo.fullPathHash) )
 		{
 			return;
 		}
@@ -193,7 +213,7 @@ public class PlayerController
 					if( actionTriggered )
 					{
 						//-- Flip the jump toggle on the animator
-						m_Animator.SetTrigger( ANIMATOR_HASH_JUMP );
+						m_Animator.SetTrigger( HASH_TRIGGER_JUMP );
 					}
 
 					break;
@@ -205,7 +225,7 @@ public class PlayerController
 					if( actionTriggered )
 					{
 						//-- Flip the shoot toggle on the animator
-						m_Animator.SetTrigger( ANIMATOR_HASH_SHOOT );
+						m_Animator.SetTrigger( HASH_TRIGGER_SHOOT );
 					}
 
 					break;
@@ -217,8 +237,8 @@ public class PlayerController
 					if( actionTriggered )
 					{
 						//-- Flip the shoot toggle on the animator
-						m_Animator.SetInteger( ANIMATOR_HASH_SPECIAL_COUNT, InventoryManager.instance.itemCount );
-						m_Animator.SetTrigger( ANIMATOR_HASH_SPECIAL );
+						m_Animator.SetInteger( HASH_INTEGER_SPECIAL_COUNT, InventoryManager.instance.itemCount );
+						m_Animator.SetTrigger( HASH_TRIGGER_SPECIAL );
 					}
 					break;
 				}
