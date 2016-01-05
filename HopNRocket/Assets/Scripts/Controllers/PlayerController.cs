@@ -13,6 +13,9 @@ public class PlayerController
 		, SPECIAL
 	}
 
+	//-- Messages supported by this MonoBehaviour
+	public static readonly string MESSAGE_TOGGLE_PLAYER_INPUT = "OnTogglePlayerInput";
+
 	//-- Animator parameter and state hashes
 	private static readonly int HASH_TRIGGER_JUMP = Animator.StringToHash( "Jump" );
 	private static readonly int HASH_TRIGGER_SHOOT = Animator.StringToHash( "Shoot" );
@@ -30,6 +33,7 @@ public class PlayerController
 	public float m_JumpForce = 5.0f;
 	public GameObject m_GameWorld;
 
+	private bool m_InputToggle = false;
 	private bool m_DisableInput;
 	private float m_NativeGravityScale;
 	private Animator m_Animator;
@@ -47,7 +51,7 @@ public class PlayerController
 		m_Body = GetComponent<Rigidbody2D>();
 		m_JumpForceVector = new Vector2( 0.0f, m_JumpForce );
 		m_ResolvedForceVector = new Vector2();
-		m_ShotForceVector = new Vector2( 0.0f, m_JumpForce * Mathf.Cos( 90.0f * Mathf.Deg2Rad ) );
+		m_ShotForceVector = new Vector2( 0.0f, m_JumpForce * Mathf.Cos( 80.0f * Mathf.Deg2Rad ) );
 
 		//-- When the game starts, gravity should not affect the
 		//   player object, but we want to use the gravity scale
@@ -83,6 +87,11 @@ public class PlayerController
 				break;
 			}
 		}
+	}
+
+	void OnTogglePlayerInput( bool enable )
+	{
+		m_InputToggle = enable;
 	}
 
 	void ConsumeActions()
@@ -182,6 +191,9 @@ public class PlayerController
 		bool consumed = InventoryManager.instance.ConsumeItem();
 		if( consumed )
 		{
+			//-- Jump resulting from a special action
+			Jump( m_ShotForceVector );
+
 			//-- Kill all turrets
 			EnemyCollection.instance.gameObject.BroadcastMessage( Killable.MESSAGE_KILL
 			                                                    , SendMessageOptions.DontRequireReceiver );
@@ -207,7 +219,7 @@ public class PlayerController
 	void PollInput()
 	{
 		//-- Don't poll when input is disable because of game state
-		if( m_DisableInput )
+		if( m_DisableInput || !m_InputToggle )
 		{
 			return;
 		}
@@ -253,6 +265,7 @@ public class PlayerController
 						m_Animator.SetInteger( HASH_INTEGER_SPECIAL_COUNT, InventoryManager.instance.itemCount );
 						m_Animator.SetTrigger( HASH_TRIGGER_SPECIAL );
 					}
+					
 					break;
 				}
 			}
