@@ -19,15 +19,17 @@ public class ScoreManager
 	//-- Attributes
 	public int bestScore{ get{ return (int)m_BestScore; } }
 	public int previousBestScore{ get{ return (int)m_PreviousBestScore; } }
-	public int totalScore{ get{ return (int)m_TimerScore; } }
+	public int totalScore{ get{ return (int)(m_TimerScore + m_MiscScore); } }
 
 	//-- Members
 	private float m_BestScore = 0.0f;
+	private float m_MiscScore = 0.0f;
 	private float m_PreviousBestScore = 0.0f;
 	private float m_TimerScore = 0.0f;
 
 	void OnLevelWasLoaded()
 	{
+		m_MiscScore = 0.0f;
 		m_TimerScore = 0.0f;
 	}
 
@@ -87,6 +89,11 @@ public class ScoreManager
  			m_TimerScore += m_TimerPoints;
 		}
 		while( GameController.instance.IsGamePlaying() );
+	}
+
+	public void AddScore( uint scoreValue )
+	{
+		m_MiscScore += scoreValue;
 	}
 }
 
