@@ -4,8 +4,6 @@ using System.Collections;
 public class DamageOnContact
 : LayerSelector
 {
-	private static readonly string MESSAGE_HIT = "OnHit";
-
 	void OnCollisionEnter2D( Collision2D collision )
 	{
 		if( IsOnTargetLayer( collision.gameObject ) )
@@ -24,6 +22,6 @@ public class DamageOnContact
 
 	void SendHit( GameObject gameObject )
 	{
-		gameObject.BroadcastMessage( MESSAGE_HIT, SendMessageOptions.DontRequireReceiver );
+		gameObject.BroadcastMessage( Killable.MESSAGE_HIT, SendMessageOptions.DontRequireReceiver );
 	}
 }
