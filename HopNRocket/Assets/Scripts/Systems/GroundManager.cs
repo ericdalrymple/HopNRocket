@@ -6,23 +6,38 @@ using System.Collections.Generic;
 public class GroundManager
 : MonoBehaviour
 {
+	//-- Active instance caching
 	private static GroundManager s_Instance = null;
-
 	public static GroundManager Instance
 	{
 		get{ return s_Instance; }
 	}
 
+
+	//-- Settings
 	public BoxCollider2D m_GameArea;
 	public GameObject[] m_GroundTilePrefabs;
 
+
+	//-- Attributes
+	public float surfaceY{ get{ return m_SurfaceY; } }
+
+
+	//-- Members
 	private bool m_InitializeGround;
+	private float m_SurfaceY;
     private LinkedList<GameObject> m_GroundTiles = new LinkedList<GameObject>();
 
-	void Awake()
+	void OnEnable()
 	{
 		//-- Make active instance staticly accessible to others
 		s_Instance = this;
+	}
+
+	void OnDestroy()
+	{
+		//-- Avoid others referencing destroyed object
+		s_Instance = null;
 	}
 
 	void Start()
@@ -42,12 +57,6 @@ public class GroundManager
 
 			m_InitializeGround = false;
 		}
-	}
-
-	void OnDestroy()
-	{
-		//-- Avoid others referencing destroyed object
-		s_Instance = null;
 	}
 
     void GenerateGround( float startX, float endX, float groundY )
@@ -74,9 +83,12 @@ public class GroundManager
             return;
         }
 
-        //-- Initialize useful variables
+		//-- Unset the surface position
+		m_SurfaceY = -1.0f;
+
+		//-- Initialize useful variables
         float x = startX;
-        float tileWidth = 0.0f;
+		float tileSurfaceY = -1.0f;
         int tilePrefabIndex = -1;
         BoxCollider2D tileCollider = null;
         GameObject tileInstance = null;
@@ -113,10 +125,7 @@ public class GroundManager
 				tileCollider = tilePrefab.GetComponent<BoxCollider2D>();
 				if( null != tileCollider )
 				{
-					//-- Resolve the tile's width
-					tileWidth = tileCollider.size.x;
-
-	                //-- Instantiate the tile
+					//-- Instantiate the tile
 	                tilePosition.x = x;
 	                tileInstance = GameObject.Instantiate( tilePrefab
 	                                                     , tilePosition
@@ -126,7 +135,21 @@ public class GroundManager
                     m_GroundTiles.AddLast( tileInstance );
 
                     //-- Move the marker to the right of the new tile
-                    x += tileWidth;
+					x += tileCollider.size.x;
+
+					//-- Update the surface position
+					tileSurfaceY = tileCollider.offset.y
+						         + tileCollider.size.y * 0.5f
+							     + tilePosition.y;
+
+					if( 0.0f > m_SurfaceY )
+					{
+						m_SurfaceY = tileSurfaceY;
+					}
+					else
+					{
+						m_SurfaceY = Mathf.Min( m_SurfaceY, tileSurfaceY );
+					}
 
                     //-- We've hit a valid tile, so reset the dud counter
                     nullLoopCount = 0;
@@ -135,10 +158,7 @@ public class GroundManager
                 {
                     //-- We've hit a dud
 
-                    //-- Dud width is 0
-                    tileWidth = 0.0f;
-
-                    //-- Break if we've hit too many consecutive duds; probably means
+					//-- Break if we've hit too many consecutive duds; probably means
                     //   that none of the prefabs are valid tiles
                     if( ++nullLoopCount >= nullLoopCap )
                     {
