@@ -20,6 +20,7 @@ public class Killable
 	//-- Settings
 	public bool m_DestroyOnDeath = false;
 	public int m_StartingHP = 1;
+	public uint m_ScoreValue = 0;
 
 	//-- Members
 	private int m_CurrentHP;
@@ -67,6 +68,9 @@ public class Killable
 	{
 		//-- Update animator
 		m_Animator.SetTrigger( HASH_TRIGGER_DEAD );
+
+		//-- Score the kill
+		ScoreManager.instance.AddScore( m_ScoreValue );
 
 		//-- Destroy parent object if needed
 		if( m_DestroyOnDeath )
