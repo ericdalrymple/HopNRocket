@@ -19,29 +19,27 @@ public class AffectScrollSpeedBehaviour
 
 	public override void OnStateEnter( Animator animator, AnimatorStateInfo stateInfo, int layerIndex )
 	{
-		string message = "";
-
 		switch( m_Mode )
 		{
 		case ScrollSpeedDirection.INCREMENT:
 		{
-			message = "IncrementScroolSpeed";
+			for( int i = 0; i < m_Count; ++i )
+			{
+				WorldScroller.instance.IncrementScrollSpeed();
+			}
+
 			break;
 		}
 
 		case ScrollSpeedDirection.DECREMENT:
 		{
-			message = "DecrementScrollSpeed";
-			break;
-		}
-		}
-
-		if( 0 < message.Length )
-		{
 			for( int i = 0; i < m_Count; ++i )
 			{
-				GameController.instance.gameObject.BroadcastMessage( message );
+				WorldScroller.instance.DecrementScrollSpeed();
 			}
+
+			break;
+		}
 		}
 	}
 }
