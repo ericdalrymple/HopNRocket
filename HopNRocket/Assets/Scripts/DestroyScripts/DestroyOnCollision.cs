@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DestroyOnContact
+public class DestroyOnCollision
 : LayerSelector
 {
 	public bool m_LayersAsExceptions = true;
@@ -16,9 +16,15 @@ public class DestroyOnContact
 
 	void OnTriggerEnter2D( Collider2D collider )
 	{
+		if( collider.isTrigger )
+		{
+			//-- No rigid body involved, no collision
+			return;
+		}
+
 		if( IsValidContact( collider.gameObject ) )
 		{
-			Destroy( gameObject );
+ 			Destroy( gameObject );
 		}
 	}
 
@@ -40,5 +46,5 @@ public class DestroyOnContact
 		}
 
 		return true;
-	} 
+	}
 }
