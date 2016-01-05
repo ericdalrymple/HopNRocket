@@ -8,7 +8,7 @@ public class GroundManager
 {
 	//-- Active instance caching
 	private static GroundManager s_Instance = null;
-	public static GroundManager Instance
+	public static GroundManager instance
 	{
 		get{ return s_Instance; }
 	}
