@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class GameController
-: MonoBehaviour
+: SingletonObject<GameController>
 {
 	//-- States for the game's overall state machine
 	public enum GameState
@@ -25,40 +25,18 @@ public class GameController
 	//-- Messages sent by this MonoBehaviour
 	private static readonly string MESSAGE_GAME_STATE_CHANGE = "OnGameStateChange";
 
-	//-- Singleton instance
-	private static GameController s_Instance;
-
-	public static GameController instance
-	{
-		get{ return s_Instance; }
-	}
-
 	//-- Member variables
 	private GameObject[] m_GameStateListeners;
 	private GameState m_CurrentGameState;
 
 	void Awake()
 	{
-		//-- Singleton logic for component and parent game object
-		if( null == s_Instance )
-		{
-			s_Instance = this;
-			DontDestroyOnLoad( gameObject );
-		}
-		else
-		{
-			Destroy( gameObject );
-		}
-
 		LoadGame();
 	}
 
 	void OnLevelWasLoaded()
 	{
-		if( this == s_Instance )
-		{
-			Initialize();
-		}
+		Initialize();
 	}
 
 	void Start()
