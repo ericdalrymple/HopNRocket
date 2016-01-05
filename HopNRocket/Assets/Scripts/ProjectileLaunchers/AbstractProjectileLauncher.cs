@@ -78,8 +78,8 @@ public abstract class AbstractProjectileLauncher
 										           , gameObject.transform.position
 										           , Quaternion.identity ) as GameObject;
 
-		//-- Set this projectile launcher's game object as the new projectile's parent
-		projectileInstance.transform.SetParent( gameObject.transform );
+		//-- Set projectile collection as parent
+		projectileInstance.transform.SetParent( ProjectileCollection.instance.gameObject.transform );
 
 		//-- Generate and send launch parameters to the new projectile
 		ProjectileLaunchEvent launchEvent = GenerateLaunchEvent();
