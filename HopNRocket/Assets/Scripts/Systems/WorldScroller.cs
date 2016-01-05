@@ -4,10 +4,6 @@ using System.Collections;
 public class WorldScroller
 : GameControllerSystem<WorldScroller>
 {
-	//-- Constants
-	private static readonly string SCROLLABLE_TAG = "Scrollable";
-
-
 	//-- Settings
 	[Tooltip( "Scroll speed, in units per second, at which the game initially scrolls" )]
 	public float m_InitialScrollSpeed;
