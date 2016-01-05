@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TurretSpawner : MonoBehaviour {
+public class TurretSpawner
+: GameControllerSystem<TurretSpawner>
+{
 
 	// Use this for initialization
 	void Start () {

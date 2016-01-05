@@ -2,12 +2,13 @@
 using System.Collections;
 
 public class WorldScroller
-: MonoBehaviour
+: GameControllerSystem<WorldScroller>
 {
 	//-- Constants
 	private static readonly string SCROLLABLE_TAG = "Scrollable";
 
-	//-- Memeber variables
+
+	//-- Settings
 	[Tooltip( "Scroll speed, in units per second, at which the game initially scrolls" )]
 	public float m_InitialScrollSpeed;
 
@@ -19,6 +20,12 @@ public class WorldScroller
 		      "changes when using WorldScroller's increment/decrement methods" )]
 	public float m_ScrollSpeedIncrement;
 
+
+	//-- Attributes
+	public float scrollSpeed{ get{ return m_CurrentScrollSpeed; } }
+
+
+	//-- Members
 	private float m_CurrentScrollSpeed;
 
 	void Start()
@@ -28,20 +35,7 @@ public class WorldScroller
 
 	void Update()
 	{
-		UpdateScrollables();
 		UpdateScrollSpeed();
-	}
-
-	void UpdateScrollables()
-	{
-		//-- Get all of the scrollable game objects
-		GameObject[] scrollables = GameObject.FindGameObjectsWithTag( SCROLLABLE_TAG );
-
-		//-- Update the position of all the scrollables according to the current scroll speed
-		foreach( GameObject scrollable in scrollables )
-		{
-			scrollable.transform.Translate( -m_CurrentScrollSpeed * Time.deltaTime, 0.0f, 0.0f );
-		}
 	}
 
 	void UpdateScrollSpeed()
@@ -62,7 +56,7 @@ public class WorldScroller
 		}
 	}
 
-	void DecrementScrollSpeed()
+	public void DecrementScrollSpeed()
 	{
 		//-- Slow down the game
 		m_CurrentScrollSpeed -= m_ScrollSpeedIncrement;
@@ -71,7 +65,7 @@ public class WorldScroller
 		m_CurrentScrollSpeed = Mathf.Max( m_InitialScrollSpeed, m_CurrentScrollSpeed );
 	}
 
-	void IncrementScroolSpeed()
+	public void IncrementScrollSpeed()
 	{
 		//-- Speed up the game
 		m_CurrentScrollSpeed += m_ScrollSpeedIncrement;

@@ -4,13 +4,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 public class ScoreManager
-: MonoBehaviour
+: GameControllerSystem<ScoreManager>
 {
-	private static ScoreManager s_Instance = null;
-
-	public static bool initialized{ get{ return (null != s_Instance); } }
-	public static ScoreManager instance{ get{ return s_Instance; } }
-
 	//-- Constants
 	private static readonly string SAVE_FILE_PATH = Application.persistentDataPath + "/scores.dat";
 
@@ -30,16 +25,6 @@ public class ScoreManager
 	private float m_BestScore = 0.0f;
 	private float m_PreviousBestScore = 0.0f;
 	private float m_TimerScore = 0.0f;
-
-	void Awake()
-	{
-		//-- Apply singleton logic upon object creation; only one
-		//   score manager should persist per game session.
-		if( null == s_Instance )
-		{
-			s_Instance = this;
-		}
-	}
 
 	void OnLevelWasLoaded()
 	{
