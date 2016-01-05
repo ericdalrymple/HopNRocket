@@ -131,6 +131,9 @@ public class GroundManager
 	                                                     , tilePosition
 	                                                     , Quaternion.identity ) as GameObject;
 
+					//-- Set ground tile collection as parent
+					tileInstance.transform.SetParent( GroundTileCollection.instance.gameObject.transform );
+
                     //-- Add the tile to our list
                     m_GroundTiles.AddLast( tileInstance );
 
