@@ -47,9 +47,11 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Abstract\LayerSelector.cs" />
      <Compile Include="Assets\Scripts\Behaviours\AffectScrollSpeedBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\ConsumeSpecialBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\DestroyBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\SendMessageBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\TurretShootBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Collectible.cs" />
      <Compile Include="Assets\Scripts\Controllers\GameController.cs" />
      <Compile Include="Assets\Scripts\Controllers\GroundTileController.cs" />
      <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
@@ -70,24 +72,21 @@
      <Compile Include="Assets\Scripts\Projectiles\AcceleratingProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\BasicProjectile.cs" />
      <Compile Include="Assets\Scripts\Projectiles\LobProjectile.cs" />
+     <Compile Include="Assets\Scripts\Systems\GameControllerSystem.cs" />
      <Compile Include="Assets\Scripts\Systems\GroundManager.cs" />
+     <Compile Include="Assets\Scripts\Systems\InventoryManager.cs" />
      <Compile Include="Assets\Scripts\Systems\ScoreManager.cs" />
      <Compile Include="Assets\Scripts\Systems\TurretSpawner.cs" />
      <Compile Include="Assets\Scripts\Systems\UIManager.cs" />
      <Compile Include="Assets\Scripts\Systems\WorldScroller.cs" />
      <Compile Include="Assets\Scripts\UIPopulators\GameOverScreenPopulator.cs" />
      <Compile Include="Assets\Scripts\UIPopulators\HUDPopulator.cs" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
+     <Compile Include="Assets\Scripts\WorldScrollable.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
