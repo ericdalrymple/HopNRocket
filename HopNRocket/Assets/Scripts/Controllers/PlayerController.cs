@@ -18,7 +18,6 @@ public class PlayerController
 	private static readonly int HASH_TRIGGER_SHOOT = Animator.StringToHash( "Shoot" );
 	private static readonly int HASH_TRIGGER_SPECIAL = Animator.StringToHash( "Special" );
 	private static readonly int HASH_INTEGER_SPECIAL_COUNT = Animator.StringToHash( "SpecialCount" );
-	private static readonly int HASH_STATE_IDLE = Animator.StringToHash( "Base Layer.Idle" );
 	private static readonly int HASH_STATE_JUMP = Animator.StringToHash( "Base Layer.JumpCycle.Jump" );
 	private static readonly int HASH_STATE_SHOOT = Animator.StringToHash( "Base Layer.ShootCycle.Shoot" );
 	private static readonly int HASH_STATE_SPECIAL = Animator.StringToHash( "Base Layer.Special" );
