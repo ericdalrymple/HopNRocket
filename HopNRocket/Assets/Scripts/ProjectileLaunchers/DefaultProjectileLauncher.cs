@@ -48,11 +48,26 @@ public class DefaultProjectileLauncher
 		{
 			defaultEventInfo.launchForce = resultantForce;
 			defaultEventInfo.launchDirection = new Vector2( resultantDirection.x, resultantDirection.y );
+			defaultEventInfo.gravityScale = Mathf.Sign( ResolveLauncherScaleY() );
 		}
 
 		//-- Give the subclass (if any) a chance to modify the default launch event
 		ConfigureDefaultLaunchEvent( defaultEventInfo );
 
 		return defaultEventInfo;
+	}
+
+	float ResolveLauncherScaleY()
+	{
+		float scaleY = 1.0f;
+
+		Transform xform = transform;
+		while( null != xform )
+		{
+			scaleY *= xform.localScale.y;
+			xform = xform.parent;
+		}
+
+		return scaleY;
 	}
 }

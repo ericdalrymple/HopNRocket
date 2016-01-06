@@ -19,13 +19,16 @@ public abstract class AbstractProjectileLauncher
 	 * projectile is given an instance of this struct through
 	 * a message when it is created in order to configure itself.
 	 */
-	public struct ProjectileLaunchEvent
+	public class ProjectileLaunchEvent
 	{
 		/** Force with which the projectile is being expulsed. */
-		public float launchForce;
+		public float launchForce = 0.0f;
 
 		/** Direction in which the projectile is being expulsed. */
-		public Vector2 launchDirection;
+		public Vector2 launchDirection = Vector2.right;
+
+		/** Gravity scale proposed to the projectile by the launcher */
+		public float gravityScale = 1.0f;
 	}
 
 

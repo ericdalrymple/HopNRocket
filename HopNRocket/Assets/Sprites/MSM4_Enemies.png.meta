@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 45130446392c13b4699ffeb6e7fbe341
-timeCreated: 1452029665
+timeCreated: 1452058998
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -21,6 +21,15 @@ TextureImporter:
     21300028: MSM4_Enemies_14
     21300030: MSM4_Enemies_15
     21300032: MSM4_Enemies_16
+    21300034: MSM4_Enemies_17
+    21300036: MSM4_Enemies_18
+    21300038: MSM4_Enemies_19
+    21300040: MSM4_Enemies_20
+    21300042: MSM4_Enemies_21
+    21300044: MSM4_Enemies_22
+    21300046: MSM4_Enemies_23
+    21300048: MSM4_Enemies_24
+    21300050: MSM4_Enemies_25
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -234,6 +243,96 @@ TextureImporter:
         y: 14
         width: 60
         height: 53
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_17
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 267
+        width: 71
+        height: 56
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_18
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 267
+        width: 72
+        height: 56
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_19
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 266
+        width: 72
+        height: 57
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_20
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 267
+        width: 71
+        height: 56
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 211
+        width: 69
+        height: 56
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_22
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 211
+        width: 68
+        height: 56
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_23
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 210
+        width: 66
+        height: 56
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_24
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 210
+        width: 59
+        height: 56
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MSM4_Enemies_25
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 159
+        width: 12
+        height: 12
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

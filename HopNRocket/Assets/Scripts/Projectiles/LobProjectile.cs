@@ -23,6 +23,9 @@ public class LobProjectile
 			//-- Push the projectile from its current position in the launch direction
 			m_Body.AddForce( eventInfo.launchDirection * eventInfo.launchForce
 			               , ForceMode2D.Impulse );
+
+			//-- Incorporate the launcher's gravity scale
+			m_Body.gravityScale *= eventInfo.gravityScale;
 		}
 	}
 }

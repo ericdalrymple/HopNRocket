@@ -22,6 +22,10 @@ public class Killable
 	public int m_StartingHP = 1;
 	public uint m_ScoreValue = 0;
 
+	//-- Attributes
+	public int currentHP{ get{ return m_CurrentHP; } }
+	public uint scoreValue{ get{ return m_ScoreValue; } }
+
 	//-- Members
 	private int m_CurrentHP;
 	private Animator m_Animator;

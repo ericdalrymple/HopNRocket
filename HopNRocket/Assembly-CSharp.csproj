@@ -90,6 +90,7 @@
      <Compile Include="Assets\Scripts\Systems\WorldScroller.cs" />
      <Compile Include="Assets\Scripts\UIPopulators\GameOverScreenPopulator.cs" />
      <Compile Include="Assets\Scripts\UIPopulators\HUDPopulator.cs" />
+     <Compile Include="Assets\Scripts\UIPopulators\TitleScreenPopulator.cs" />
      <Compile Include="Assets\Scripts\WorldScrollable.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
